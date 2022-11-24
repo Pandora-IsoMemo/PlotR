@@ -7,9 +7,8 @@ uploadFilesUI <- function(id, title) {
     title,
     id = id,
     value = id,
-    useShinyalert(),
     fluidRow(
-      sidebarPanel(width = 2,
+      sidebarPanel(width = 3,
                    importDataUI(ns("data"), "Import Data"),
                    tags$hr(),
                    selectInput(ns("activeFile"),
