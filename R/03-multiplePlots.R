@@ -7,10 +7,8 @@ multiplePlotsUI <- function(id, title) {
     title,
     id = id,
     value = id,
-    #useShinyjs(),
-    useShinyalert(),
     fluidRow(
-      sidebarPanel(width = 2,
+      sidebarPanel(width = 3,
                    selectInput(ns("activePlots"),
                                label = "Select saved plots",
                                choices = NULL,
@@ -20,7 +18,7 @@ multiplePlotsUI <- function(id, title) {
                    tags$hr(),
                    sliderInput(ns("previewWidth"),
                                label = "Width of preview",
-                               min = 400, max = 2000, value = 1400, step = 10),
+                               min = 400, max = 2000, value = 1100, step = 10),
                    sliderInput(ns("previewHeight"),
                                 label = "Height of preview",
                                 min = 400, max = 2000, value = 800, step = 10),
@@ -56,7 +54,11 @@ multiplePlotsUI <- function(id, title) {
                                multiple = TRUE)
       ),
       mainPanel(width = 8,
-                h4("View Multiple Plots"),
+                fluidRow(column(9, h4("View Multiple Plots")),
+                         column(3,
+                                align = "right",
+                                plotExportButton(ns("export")))),
+                tags$br(),
                 p(strong("Notes:"), "Adjust the format of a single plot in the tab Style Plot.",
                   "Increase the width/height if figure margins become to large when selecting many plots."),
                 conditionalPanel(
@@ -66,9 +68,6 @@ multiplePlotsUI <- function(id, title) {
                     "plot is determined by the first selected single plot. ",
                     "The axes of the first selected plot will be furthest inside.")),
                 plotOutput(ns("multiPlot"), height = "800px", width = "100%", inline = TRUE)
-      ),
-      sidebarPanel(width = 2,
-                   div(plotExportButton(ns("export")))
       )
     )
   )
@@ -151,19 +150,15 @@ multiplePlots <- function(input, output, session, savedData) {
   output$multiPlot <- renderPlot({
     req(names(activePlotsData()))
 
-    tryCatch(
-      withCallingHandlers(
-        makeMultiPlot(activePlotsData(),
-                      nMarginLines = nMarginLines(),
-                      combiType = input$combiType,
-                      nGridCols = input$nGridCols,
-                      xAxisToHide = input$xAxisToHide,
-                      yAxisToHide = input$yAxisToHide
-        ),
-        message = function(m) showNotification(m$message, type = "message"),
-        warning = function(w) showNotification(w$message, type = "warning")
-      ),
-      error = function(e) shinyalert("Error!", e$message, type = "error")
+    tryCatchWithMessage(
+      makeMultiPlot(
+        activePlotsData(),
+        nMarginLines = nMarginLines(),
+        combiType = input$combiType,
+        nGridCols = input$nGridCols,
+        xAxisToHide = input$xAxisToHide,
+        yAxisToHide = input$yAxisToHide
+      )
     )
 
     values$plot <- recordPlot()
