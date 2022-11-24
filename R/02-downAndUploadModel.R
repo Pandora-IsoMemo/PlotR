@@ -93,6 +93,16 @@ uploadModel <- function(input, output, session, loadedFiles, savedData,
     }
 
     if (!is.null(model)) {
+      if (all(names(model) %in% c("loadedFiles", "savedData"))) {
+        shinyalert(
+          title = "Depricated format",
+          text = "Could not read file. Please use downloaded files from PlotR version larger or equal 22.02.1",
+          type = "error"
+          )
+
+        return()
+      }
+
       savedData(c(savedData(), model))
       updateSelectInput(session, "activePlot", choices = names(savedData()),
                         selected = names(savedData())[length(savedData())])
@@ -115,7 +125,7 @@ uploadModel <- function(input, output, session, loadedFiles, savedData,
 
       shinyalert("Model loaded", type = "success")
     } else {
-      shinyalert("Empty model loaded", type = "warning")
+      shinyalert("Model object is empty.", type = "warning")
     }
 
   })
