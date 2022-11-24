@@ -88,6 +88,7 @@ multiplePredictionsUI <- function(id, title) {
                                tags$br(),tags$br(),tags$br(),tags$br(),tags$br(),tags$br(),tags$br(),
                                actionButton(ns("predictYUploaded"), "Predict Y")),
                         column(3,
+                               offset = 1,
                                h4("Derive Explanatory"),
                                selectColumnsUI(id = ns("moreYUploaded"), label = "y"),
                                # no sampling here, we have a list of values
@@ -99,15 +100,25 @@ multiplePredictionsUI <- function(id, title) {
                     tags$hr(),
                     fluidRow(
                       column(12,
+                             fluidRow(column(6, h4("Predicted Response")),
+                                      column(6,
+                                             align = "right",
+                                             checkboxInput(ns("aggPrediction"),
+                                                           label = "If several points show mean over x per plot for all columns.",
+                                                           value = TRUE,
+                                                           width = "100%")
+                                             )),
                              DTOutput(ns("prediction")),
-                             checkboxInput(ns("aggPrediction"),
-                                           label = "If several points show mean over x per plot for all columns.",
-                                           value = TRUE),
-                             tags$br(),
-                             DTOutput(ns("derivedX")),
-                             checkboxInput(ns("aggExplanatory"),
-                                           label = "If several points show mean over y per plot for all columns.",
-                                           value = TRUE)
+                             tags$hr(),
+                             fluidRow(column(6, h4("Derived Explanatory")),
+                                      column(6,
+                                             align = "right",
+                                             checkboxInput(ns("aggExplanatory"),
+                                                           label = "If several points show mean over y per plot for all columns.",
+                                                           value = TRUE,
+                                                           width = "100%")
+                                      )),
+                             DTOutput(ns("derivedX"))
                       )
                     )
 
