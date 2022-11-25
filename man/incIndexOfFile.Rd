@@ -7,7 +7,7 @@
 incIndexOfFile(fileName)
 }
 \arguments{
-\item{(character)}{filename}
+\item{fileName}{(character) filename}
 }
 \description{
 If the file has no index, add a new index: "(1)". If an index already exists, increase it by one.

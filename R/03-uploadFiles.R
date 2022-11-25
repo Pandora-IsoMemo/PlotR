@@ -78,7 +78,7 @@ uploadFiles <- function(input, output, session) {
 #'
 #' If the file has no index, add a new index: "(1)". If an index already exists, increase it by one.
 #'
-#' @param (character) filename
+#' @param fileName (character) filename
 incIndexOfFile <- function(fileName) {
   # extract type
   fileType <- regmatches(fileName, regexpr(".[[:alnum:]]*$", fileName))
