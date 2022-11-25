@@ -8,15 +8,24 @@ runModelUI <- function(id, title) {
     id = id,
     value = id,
     fluidRow(
-      sidebarPanel(width = 3,
-        selectInput(ns("activeFile"),
-                    label = "Select a file",
-                    choices = NULL),
-        tags$hr(),
+      sidebarPanel(
+        width = 3,
+        fluidRow(
+          column(8,
+                 selectInput(ns("activeFile"),
+                             label = "Select a file",
+                             choices = NULL)
+          ),
+          column(4,
+                 align = "left",
+                 style = "margin-top: 16px;",
+                 actionButton(ns("loadFile"), "Load", width = "90%")
+          )),
+        tags$br(),
         dataSettingsUI(ns("settings"), "Data Settings"),
-        tags$hr(),
+        tags$br(),
         modelSettingsUI(ns("modSettings"), "Model Settings"),
-        tags$hr(),
+        tags$br(),
         actionButton(ns("calculateModel"), "Run Model")
       ),
       mainPanel(
@@ -26,24 +35,22 @@ runModelUI <- function(id, title) {
                         dataExportButton(ns("exportData")),
                         plotExportButton(ns("export")))),
         tags$br(),
-        fluidRow(column(3, savePlotUI(ns("savingPlot"), label = "Save plot")),
-                 column(3,
-                        offset = 1,
+        fluidRow(column(4, savePlotUI(ns("savingPlot"), label = "Save plot")),
+                 column(4,
                         fluidRow(
-                          column(9,
+                          column(8,
                                  style = "margin-top: 10px;",
                                  selectInput(ns("activePlot"),
                                              label = "Load plot",
                                              choices = NULL)
                           ),
-                          column(3,
-                                 align = "right",
+                          column(4,
+                                 align = "left",
                                  style = "margin-top: 26px;",
-                                 actionButton(ns("loadSavedPlot"), "Apply")
-                          )
-                        )),
-                 column(3,
-                        offset = 1,
+                                 actionButton(ns("loadSavedPlot"), "Apply", width = "80%")
+                          ))
+                        ),
+                 column(4,
                         deletePlotUI(ns("deletingPlot"), "Delete plot(s)"))
                  ),
         # conditionalPanel(
@@ -95,13 +102,15 @@ runModel <- function(input, output, session, loadedFiles) {
 
   savedData <- reactiveVal(list())
   activeFileData <- reactiveVal(NULL)
-  currentNamesOfNumCols <- reactiveVal(NULL)
+  currentNamesOfNumCols <- reactiveVal(character(0))
+  currentDataSelection <- list(xColumns = reactiveVal(defaultColSelection()),
+                               yColumns = reactiveVal(defaultColSelection()),
+                               dataOutlier = reactiveVal(defaultDataOutlier()))
+  currentModelParams <- reactiveVal(defaultModelSettings())
   selectedPlot <- reactiveVal(NULL)
   plotValues <- getPlotValuesDefaults()
   plotStyle <- getPlotStyleDefaults()
   values <- reactiveValues(plot = NULL)
-  currentDataSettings <- reactiveVal()
-  currentModelParams <- reactiveVal()
 
   observeEvent(loadedFiles(), {
     req(names(loadedFiles()))
@@ -109,21 +118,19 @@ runModel <- function(input, output, session, loadedFiles) {
                       selected = names(loadedFiles())[length(loadedFiles())])
   })
 
-  observeEvent(input$activeFile, {
+  observeEvent(input$loadFile, {
     req(names(loadedFiles()), input$activeFile)
-    activeFileData(loadedFiles()[[input$activeFile]])
 
+    activeFileData(loadedFiles()[[input$activeFile]])
     currentNamesOfNumCols(colnames(toNumericCols(activeFileData())))
-    currentDataSettings(
-      list(
-        xColumns = defaultColSelection(currentNamesOfNumCols()),
-        yColumns = defaultColSelection(currentNamesOfNumCols()),
-        dataOutlier = defaultDataOutlier()
-      )
-    )
+
+    # reset to default values
+    currentDataSelection$xColumns(defaultColSelection(currentNamesOfNumCols()))
+    currentDataSelection$yColumns(defaultColSelection(currentNamesOfNumCols()))
+    currentDataSelection$dataOutlier(defaultDataOutlier())
+
     currentModelParams(defaultModelSettings())
 
-    # reset outputs
     for (name in names(getPlotValuesDefaults())) {
       plotValues[[name]] <- getPlotValuesDefaults()[[name]]
     }
@@ -131,6 +138,7 @@ runModel <- function(input, output, session, loadedFiles) {
       plotStyle[[name]] <- getPlotStyleDefaults()[[name]]
     }
 
+    # update with the defaults
     updateSelectInput(session, "centerType",
                       selected = plotValues$plottedTypeOfPrediction$centerType)
     updateSelectInput(session, "errorType",
@@ -147,8 +155,16 @@ runModel <- function(input, output, session, loadedFiles) {
     dataSettings,
     "settings",
     colNames = currentNamesOfNumCols,
-    inputSettings = currentDataSettings
+    inputSettings = currentDataSelection
   )
+
+  observeEvent(list(dataSelection$xColumns(),
+                    dataSelection$yColumns(),
+                    dataSelection$dataOutlier()), {
+                      currentDataSelection$xColumns(dataSelection$xColumns())
+                      currentDataSelection$yColumns(dataSelection$yColumns())
+                      currentDataSelection$dataOutlier(dataSelection$dataOutlier())
+  })
 
   modelParameters <- callModule(
     modelSettings,
@@ -156,15 +172,21 @@ runModel <- function(input, output, session, loadedFiles) {
     modelParameters = currentModelParams
   )
 
+  observeEvent(modelParameters(), {
+    currentModelParams(modelParameters())
+  })
+
   # calculate model ####
   observeEvent(input$calculateModel, {
     req(activeFileData())
 
-    plotValues <- getPlotValues(plotValues = plotValues,
-                                activeFile = input$activeFile,
-                                activeFileData = activeFileData(),
-                                dataSelection = dataSelection,
-                                modelParameters = modelParameters())
+    plotValues <- getPlotValues(
+      plotValues = plotValues,
+      activeFile = input$activeFile,
+      activeFileData = activeFileData(),
+      dataSelection = currentDataSelection,
+      modelParameters = currentModelParams()
+      )
 
     plotStyle$xRange <- plotValues$defaultXRange
   })
@@ -227,12 +249,6 @@ runModel <- function(input, output, session, loadedFiles) {
   })
 
   observeEvent(input$loadSavedPlot, {
-    selectedPlot(savedData()[[input$activePlot]])
-
-    currentNamesOfNumCols(colnames(toNumericCols(selectedPlot()$plotValues$activeFileData)))
-    currentDataSettings(selectedPlot()$plotValues$dataSettings)
-    currentModelParams(selectedPlot()$plotValues$modelParameters)
-
     for (i in names(plotValues)) {
       plotValues[[i]] <- savedData()[[input$activePlot]]$plotValues[[i]]
     }
@@ -241,6 +257,14 @@ runModel <- function(input, output, session, loadedFiles) {
       plotStyle[[i]] <- savedData()[[input$activePlot]]$plotStyle[[i]]
     }
 
+    currentNamesOfNumCols(colnames(toNumericCols(plotValues$activeFileData)))
+    currentDataSelection$xColumns(plotValues$dataSettings$xColumns)
+    currentDataSelection$yColumns(plotValues$dataSettings$yColumns)
+    currentDataSelection$dataOutlier(plotValues$dataSettings$dataOutlier)
+    currentModelParams(plotValues$modelParameters)
+
+    updateSelectInput(session, "activeFile",
+                      selected = plotValues$activeFile)
     updateSelectInput(session, "centerType",
                       selected = plotValues$plottedTypeOfPrediction$centerType)
     updateSelectInput(session, "errorType",

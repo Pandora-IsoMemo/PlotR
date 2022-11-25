@@ -34,40 +34,30 @@ dataSettingsUI <- function(id, label = "Data Settings") {
 #' @param output shiny output object
 #' @param session shiny session
 #' @param colNames (reactive) colnames of dataframe of the selected loaded file
-#' @param inputSettings (reactive) list of settings for input fields
+#' @param inputSettings (list) list of reactive settings for input fields
 dataSettings <- function(input, output, session, colNames, inputSettings) {
-
-  dataSettingsX <- reactiveVal(NULL)
-  dataSettingsY <- reactiveVal(NULL)
-
-  observe({
-    req(inputSettings())
-    dataSettingsX(inputSettings()$xColumns)
-    dataSettingsY(inputSettings()$yColumns)
-  })
 
   xColumns <- callModule(
     selectColumns,
     id = "x",
     colNames = colNames,
-    datSettings = dataSettingsX
+    datSettings = inputSettings$xColumns
     )
   yColumns <- callModule(
     selectColumns,
     id = "y",
     colNames = colNames,
-    datSettings = dataSettingsY
+    datSettings = inputSettings$yColumns
     )
 
   observe({
-    req(inputSettings())
     updateCheckboxInput(
       session, "outlierD",
-      value = inputSettings()$dataOutlier$outlierD
+      value = inputSettings$dataOutlier()$outlierD
       )
     updateSliderInput(
       session, "outlierValueD",
-      value = inputSettings()$dataOutlier$outlierValueD
+      value = inputSettings$dataOutlier()$outlierValueD
       )
   })
 

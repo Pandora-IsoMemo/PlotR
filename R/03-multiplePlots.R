@@ -15,7 +15,7 @@ multiplePlotsUI <- function(id, title) {
                                multiple = TRUE#,
                                #selectize = TRUE
                    ),
-                   tags$hr(),
+                   tags$br(),
                    sliderInput(ns("previewWidth"),
                                label = "Width of preview",
                                min = 400, max = 2000, value = 1100, step = 10),
@@ -23,35 +23,41 @@ multiplePlotsUI <- function(id, title) {
                                 label = "Height of preview",
                                 min = 400, max = 2000, value = 800, step = 10),
                    tags$br(),
-                   h4("Combine plots"),
-                   selectInput(ns("combiType"),
-                               label = NULL,
-                               choices = c("all-in-one" = "joinedPlot",
-                                           "grid" = "fullGrid"),
-                               selected = "fullGrid"),
-                   conditionalPanel(
-                     condition = "input.combiType == 'fullGrid'",
-                     ns = ns,
-                     numericInput(inputId = ns("nGridCols"),
-                                 label = "Number of columns",
-                                 min = 1, max = 8, value = 1, step = 1)),
-                   tags$hr(),
-                   conditionalPanel(
-                     condition = "input.combiType == 'joinedPlot'",
-                     ns = ns,
-                     h4("Adjust margins"),
-                     selectMarginUI(ns("margins"))
-                   ),
-                   tags$hr(),
-                   h4("Hide axes"),
-                   selectInput(ns("xAxisToHide"),
-                               label = "Hide x axis of selected plot",
-                               choices = NULL,
-                               multiple = TRUE),
-                   selectInput(ns("yAxisToHide"),
-                               label = "Hide y axis of selected plot",
-                               choices = NULL,
-                               multiple = TRUE)
+                   fluidRow(
+                     column(4,
+                            selectInput(ns("combiType"),
+                                        label = "Combine plots",
+                                        choices = c("all-in-one" = "joinedPlot",
+                                                    "grid" = "fullGrid"),
+                                        selected = "fullGrid")
+                     ),
+                     column(8,
+                            conditionalPanel(
+                              condition = "input.combiType == 'fullGrid'",
+                              ns = ns,
+                              numericInput(inputId = ns("nGridCols"),
+                                           label = "Number of columns",
+                                           min = 1, max = 8, value = 1, step = 1)),
+                            conditionalPanel(
+                              condition = "input.combiType == 'joinedPlot'",
+                              ns = ns,
+                              selectMarginUI(ns("margins"))
+                            )
+                     )),
+                   tags$br(),
+                   fluidRow(
+                     column(6,
+                            selectInput(ns("xAxisToHide"),
+                                        label = "Hide x axis of plots",
+                                        choices = NULL,
+                                        multiple = TRUE)
+                     ),
+                     column(6,
+                            selectInput(ns("yAxisToHide"),
+                                        label = "Hide y axis of plots",
+                                        choices = NULL,
+                                        multiple = TRUE)
+                     ))
       ),
       mainPanel(width = 8,
                 fluidRow(column(9, h4("View Multiple Plots")),
@@ -78,7 +84,7 @@ selectMarginUI <- function(id) {
   ns <- NS(id)
   div(
     selectInput(ns("side"),
-                label = "Select plot side",
+                label = "Adjust margin",
                 choices = c("bottom" = "1", "left" = "2", "top" = "3", "right" = "4"),
                 selected = "1"),
     conditionalPanel(

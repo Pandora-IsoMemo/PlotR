@@ -25,7 +25,7 @@ modelSettingsUI(id, label = "Model Settings")
 
 \item{colNames}{(reactive) colnames of dataframe of the selected loaded file}
 
-\item{inputSettings}{(reactive) list of settings for input fields}
+\item{inputSettings}{(list) list of reactive settings for input fields}
 }
 \description{
 UI function to define settings for imported data

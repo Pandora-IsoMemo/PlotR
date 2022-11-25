@@ -103,14 +103,23 @@ uploadModel <- function(input, output, session, loadedFiles, savedData,
                         selected = names(savedData())[length(savedData())])
 
       uploadedFileNames <- lapply(names(savedData()), function(plot){
-        savedData()[[plot]]$plotValues$activeFile
+        newFileName <- savedData()[[plot]]$plotValues$activeFile
+
+        # rename duplicated files
+        while (any(newFileName == names(loadedFiles()))) {
+          newFileName <- incIndexOfFile(newFileName)
+          tmpSavedData <- savedData()
+          tmpSavedData[[plot]]$plotValues$activeFile <- newFileName
+          savedData(tmpSavedData)
+        }
+
+        newFileName
       })
+
       uploadedFiles <- lapply(names(savedData()), function(plot){
         savedData()[[plot]]$plotValues$activeFileData
       })
-
       uploadedFiles <- setNames(uploadedFiles, uploadedFileNames)
-      uploadedFiles <- uploadedFiles[unique(unlist(uploadedFileNames))]
 
       loadedFiles(c(loadedFiles(), uploadedFiles[unique(unlist(uploadedFileNames))]))
       updateSelectInput(session, "activeFile", choices = names(loadedFiles()),
@@ -122,9 +131,9 @@ uploadModel <- function(input, output, session, loadedFiles, savedData,
     }
 
     # clean up
-    file.remove("model.Rdata")
-    file.remove("README.txt")
-    file.remove("help.html")
+    if (file.exists("model.Rdata")) file.remove("model.Rdata")
+    if (file.exists("README.txt")) file.remove("README.txt")
+    if (file.exists("help.html")) file.remove("help.html")
   })
 }
 

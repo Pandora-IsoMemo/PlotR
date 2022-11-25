@@ -5,13 +5,13 @@ savePlotUI <- function(id, label) {
   ns <- NS(id)
 
   tagList(
-    fluidRow(column(9,
+    fluidRow(column(8,
                     textInput(ns("plotName"), label, value = "", placeholder = "name your plot")
                     ),
-             column(3,
-                    align = "right",
+             column(4,
+                    align = "left",
                     style = "margin-top: 26px;",
-                    actionButton(ns("saveActivePlot"), "Save")
+                    actionButton(ns("saveActivePlot"), "Save", width = "80%")
                     ))
   )
 }
@@ -61,17 +61,17 @@ deletePlotUI <- function(id, label) {
 
   tagList(
     useShinyjs(),
-    fluidRow(column(9,
+    fluidRow(column(8,
                     style = "margin-top: 10px;",
                     selectInput(ns("deletePlotSelection"),
                                 label = label,
                                 choices = NULL,
                                 multiple = T)
                     ),
-             column(3,
-                    align = "right",
+             column(4,
+                    align = "left",
                     style = "margin-top: 26px;",
-                    actionButton(ns("deletePlot"), "Delete")
+                    actionButton(ns("deletePlot"), "Delete", width = "80%")
                     ))
   )
 }
