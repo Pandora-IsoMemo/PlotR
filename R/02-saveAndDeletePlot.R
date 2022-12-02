@@ -65,7 +65,7 @@ deletePlotUI <- function(id, label) {
                     style = "margin-top: 10px;",
                     selectInput(ns("deletePlotSelection"),
                                 label = label,
-                                choices = NULL,
+                                choices = c("Save or upload a plot ..." = ""),
                                 multiple = T)
                     ),
              column(4,

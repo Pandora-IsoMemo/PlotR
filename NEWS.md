@@ -1,5 +1,11 @@
 # PlotR app development version
 
+## PlotR 22.11.2
+
+### Updates
+- added placeholders to several select inputs as long as data is missing (#14)
+- rename tab "File Upload(s)" to "File Import(s)" for more consistency with the placeholders
+
 ## PlotR 22.11.1
 
 ### New Features
