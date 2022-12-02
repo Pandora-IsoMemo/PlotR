@@ -1,6 +1,6 @@
 # PlotR app development version
 
-## PlotR 22.11.2
+## PlotR 22.12.1
 
 ### Updates
 - added placeholders to several select inputs as long as data is missing (#14)
