@@ -43,6 +43,8 @@ savePlot <- function(input, output, session, savedData, currentPlot){
                                      plotValues = reactiveValuesToList(currentPlot$plotValues),
                                      plotStyle = reactiveValuesToList(currentPlot$plotStyle))),
                            input$plotName)))
+
+      updateTextInput(session, "plotName", value = "")
     }
   })
 }

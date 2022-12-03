@@ -19,7 +19,7 @@ downUploadsUI <- function(id, title) {
                                  label = "Upload plot object(s)")
       ),
       mainPanel(width = 8,
-                fluidRow(column(8, h4("View the Plot")),
+                fluidRow(column(8, h4("View the Selected Plot")),
                          column(4,
                                 align = "right",
                                 # dataExportButton(ns("exportData")),
