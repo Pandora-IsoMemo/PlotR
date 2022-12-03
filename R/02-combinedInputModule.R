@@ -64,7 +64,7 @@ sliderAndNumericRangeServer <- function(id,
                                         max) {
   moduleServer(id,
                function(input, output, session) {
-                 result <- reactiveVal(5000)
+                 result <- reactiveVal(c(0, 1))
 
                  observeEvent(list(value(), min(), max()), {
                    req(value(), min(), max())
