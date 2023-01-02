@@ -1,11 +1,39 @@
 makeMultiPlot <- function(valuesList, nMarginLines, combiType = "rowGrid", nGridCols = 2,
-                          xAxisToHide = NULL, yAxisToHide = NULL
+                          xAxisToHide = NULL, yAxisToHide = NULL, showSig = FALSE,
+                          referencePlot = NULL, sigLevel = 0.95
                           ){
 
   if (is.null(names(valuesList))) return(NULL)
 
-  if(combiType == "joinedPlot") {
+  if(showSig){
 
+    if(!is.null(referencePlot) & length(names(valuesList)) > 1){
+      referenceCurve <- valuesList[[referencePlot]]$plotValues$predictedData$evenlyOnX
+      for (q in names(valuesList)){
+        valuesList[[q]]$plotValues$predictedData$evenlyOnX$sig <- FALSE
+        #get relevant overlap
+        tmp <- valuesList[[q]]$plotValues$predictedData$evenlyOnX[valuesList[[q]]$plotValues$predictedData$evenlyOnX$xVar >=
+                                                                    min(referenceCurve$xVar) &
+                                                                    valuesList[[q]]$plotValues$predictedData$evenlyOnX$xVar <=
+                                                                    max(referenceCurve$xVar), ]
+        #match closest points
+        for (i in 1:nrow(tmp)){
+          bestReferenceMatch <- which.min(abs(tmp$xVar[i]-referenceCurve$xVar))
+          pv <- pnorm(referenceCurve[bestReferenceMatch,]$Estimation - tmp$Estimation[i],0,
+                      sqrt((tmp$SE[i])^2 + referenceCurve[bestReferenceMatch,]$SE^2))
+          if(min(pv*2, (1-pv)*2) < (1-sigLevel)){
+            tmp$sig[i] <- TRUE
+          }
+        }
+        tmp <- tmp[tmp$sig,]
+        if(NROW(tmp)>0){
+          valuesList[[q]]$plotValues$predictedData$evenlyOnX$sig[valuesList[[q]]$plotValues$predictedData$evenlyOnX$xVar %in% tmp$xVar] <- TRUE
+        }
+      }
+    }
+  }
+
+  if(combiType == "joinedPlot") {
     par(mar = c(3 * (nMarginLines$bottom),
                 3 * (nMarginLines$left),
                 3 * (nMarginLines$top),
@@ -45,7 +73,6 @@ makePlot <- function(plotValues, plotStyle, hideXAxis = FALSE, hideYAxis = FALSE
            hideXAxis = hideXAxis,
            hideYAxis = hideYAxis
   )
-
   plotDataPoints(removeModelOutliers(plotValues$modelData$data),
                  xNames = xSel$colNames, xType = xSel$type, xCredPercent = xSel$credPercent,
                  yNames = ySel$colNames, yType = ySel$type, yCredPercent = ySel$credPercent,
@@ -259,6 +286,29 @@ plotPredictions <- function(predData,
             lwd = predWidth,
             lty = predLineType,
             col = predColor)
+
+
+  if("sig" %in% colnames(predData)){
+    segment <- 1
+    plotRPred$segment <- segment
+    for (j in 2:NROW(plotRPred)){
+      if(plotRPred$sig[j] == TRUE & plotRPred$sig[j-1] == FALSE){
+        segment <- segment + 1
+      }
+      plotRPred$segment[j] <- segment
+    }
+    segments <- max(plotRPred$segment)
+    for (i in 1:segments){
+      plotLines(hide = FALSE,
+                plotRPred[plotRPred$sig == TRUE & plotRPred$segment == i, centerType] ~
+                  plotRPred$xVar[plotRPred$sig == TRUE & plotRPred$segment == i],
+                lwd = 3,
+                lty = 1,
+                col = "#FF0000")
+
+    }
+  }
+
   plotLines(hide = uncertaintyHide,
             getUncertaintyLimit(plotRPred,
                                 type = errorType,
