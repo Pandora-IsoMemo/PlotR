@@ -6,28 +6,20 @@ makeMultiPlot <- function(valuesList, nMarginLines, combiType = "rowGrid", nGrid
   if (is.null(names(valuesList))) return(NULL)
 
   if(showSig){
-
     if(!is.null(referencePlot) & length(names(valuesList)) > 1){
       referenceCurve <- valuesList[[referencePlot]]$plotValues$predictedData$evenlyOnX
+
       for (q in names(valuesList)){
         valuesList[[q]]$plotValues$predictedData$evenlyOnX$sig <- FALSE
-        #get relevant overlap
-        tmp <- valuesList[[q]]$plotValues$predictedData$evenlyOnX[valuesList[[q]]$plotValues$predictedData$evenlyOnX$xVar >=
-                                                                    min(referenceCurve$xVar) &
-                                                                    valuesList[[q]]$plotValues$predictedData$evenlyOnX$xVar <=
-                                                                    max(referenceCurve$xVar), ]
-        #match closest points
-        for (i in 1:nrow(tmp)){
-          bestReferenceMatch <- which.min(abs(tmp$xVar[i]-referenceCurve$xVar))
-          pv <- pnorm(referenceCurve[bestReferenceMatch,]$Estimation - tmp$Estimation[i],0,
-                      sqrt((tmp$SE[i])^2 + referenceCurve[bestReferenceMatch,]$SE^2))
-          if(min(pv*2, (1-pv)*2) < (1-sigLevel)){
-            tmp$sig[i] <- TRUE
-          }
-        }
-        tmp <- tmp[tmp$sig,]
-        if(NROW(tmp)>0){
-          valuesList[[q]]$plotValues$predictedData$evenlyOnX$sig[valuesList[[q]]$plotValues$predictedData$evenlyOnX$xVar %in% tmp$xVar] <- TRUE
+
+        relevantOverlap <- getRelevantOverlap(valuesOfQ = valuesList[[q]],
+                                              referenceCurve = referenceCurve,
+                                              sigLevel = sigLevel)
+
+        if(NROW(relevantOverlap)>0){
+          sigIndex <-
+            valuesList[[q]]$plotValues$predictedData$evenlyOnX$xVar %in% relevantOverlap$xVar
+          valuesList[[q]]$plotValues$predictedData$evenlyOnX$sig[sigIndex] <- TRUE
         }
       }
     }
@@ -57,6 +49,34 @@ makeMultiPlot <- function(valuesList, nMarginLines, combiType = "rowGrid", nGrid
                hideYAxis = (p %in% yAxisToHide))
     }
   }
+}
+
+
+#' Get Relevant Overlap
+#'
+#' @param valuesOfQ predictions of the curve q
+#' @param referenceCurve predictions of the reference curve
+#' @param sigLevel significance level
+getRelevantOverlap <- function(valuesOfQ, referenceCurve, sigLevel) {
+  #get relevant overlap
+  xVarsOverlapIndex <-
+    valuesOfQ$plotValues$predictedData$evenlyOnX$xVar >= min(referenceCurve$xVar) &
+    valuesOfQ$plotValues$predictedData$evenlyOnX$xVar <= max(referenceCurve$xVar)
+
+  relevantOverlap <- valuesOfQ$plotValues$predictedData$evenlyOnX[xVarsOverlapIndex, ]
+
+  #match closest points
+  for (i in 1:nrow(relevantOverlap)){
+    bestReferenceMatch <- which.min(abs(relevantOverlap$xVar[i] - referenceCurve$xVar))
+    pv <- pnorm(referenceCurve[bestReferenceMatch,]$Estimation - relevantOverlap$Estimation[i],0,
+                sqrt((relevantOverlap$SE[i])^2 + referenceCurve[bestReferenceMatch,]$SE^2))
+    if(min(pv*2, (1 - pv) * 2) < (1 - sigLevel)){
+      relevantOverlap$sig[i] <- TRUE
+    }
+  }
+  relevantOverlap <- relevantOverlap[relevantOverlap$sig,]
+
+  return(relevantOverlap)
 }
 
 makeSinglePlot <- function(plotValues, plotStyle){
