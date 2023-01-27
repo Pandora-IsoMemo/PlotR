@@ -1,5 +1,12 @@
 # PlotR app development version
 
+## Version 23.01.2
+
+### New Features
+- the _Import Data_ module is now imported from the new package IsoAppTools (#22, PR #23)
+  - additionally to file import, now import from _URL_ or from _Pandora Platform_ is possible
+  - all redundant code was removed
+
 ## PlotR 23.01.1
 
 ### New Features
