@@ -225,7 +225,7 @@ loadData <- function(file, type, sep = ",", dec = ".", rownames = FALSE) {
 
   if (rownames) {
     rn <- data[, 1]
-    data <- as.matrix(data[, -1, drop = FALSE])
+    data <- data[, -1, drop = FALSE]
     rownames(data) <- rn
   }
 
