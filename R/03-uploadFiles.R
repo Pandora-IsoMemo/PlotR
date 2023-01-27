@@ -31,13 +31,14 @@ uploadFiles <- function(input, output, session) {
   loadedFiles <- reactiveVal(list())
   activeFile <- reactiveVal(NULL)
 
-  importedData <- callModule(importData, "data",
-                             customWarningChecks = list(
-                               checkWarningEmptyValues
-                             ),
-                             customErrorChecks = list(
-                               checkErrorNoNumericColumns
-                             ))
+  importedData <- importDataServer("data",
+                                   customWarningChecks = list(
+                                     reactive(checkWarningEmptyValues)
+                                   ),
+                                   customErrorChecks = list(
+                                     reactive(checkErrorNoNumericColumns)
+                                   ),
+                                   ignoreWarnings = TRUE)
 
   observe({
     req(names(loadedFiles()))
