@@ -8,15 +8,13 @@
 #' @importFrom jsonlite toJSON
 #' @importFrom magrittr %>%
 #' @importFrom mgcv Predict.matrix smoothCon s
-#' @importFrom readr guess_encoding
-#' @importFrom readxl read_excel
 #' @importFrom Rfast rmvnorm spdinv
 #' @importFrom rlang .data
 #' @importFrom shinyalert shinyalert
-#' @importFrom shinyjs reset useShinyjs
-#' @importFrom stats cor density dunif na.omit rnorm rgamma runif sd setNames var median qnorm
+#' @importFrom shinyjs useShinyjs
+#' @importFrom stats cor density dunif na.omit pnorm rnorm rgamma runif sd setNames var median qnorm
 #' @importFrom tibble tribble
-#' @importFrom utils head packageVersion read.csv write.table
+#' @importFrom utils head packageVersion write.table
 #' @importFrom openxlsx read.xlsx write.xlsx
 #' @importFrom zip zipr
 NULL

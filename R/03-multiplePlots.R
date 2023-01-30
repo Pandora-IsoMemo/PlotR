@@ -239,53 +239,53 @@ multiplePlots <- function(input, output, session, savedData) {
   observeEvent(input$activePlots, {
     req(input$activePlots)
 
-    updateSelectInput(session, "xAxisToHide", choices = input$activePlots#,
-                      # only use if nMarginLines AND position of an axis will be reactive
-                      #selected = getNamesToDrop(input$activePlots, input$combiType))
-                      updateSelectInput(session, "yAxisToHide", choices = input$activePlots#,
-                                        #selected = getNamesToDrop(input$activePlots, input$combiType))
-                                        updateSelectInput(session, "referencePlot", choices = input$activePlots)
+    updateSelectInput(session, "xAxisToHide", choices = input$activePlots)
+    # only use if nMarginLines AND position of an axis will be reactive
+    #selected = getNamesToDrop(input$activePlots, input$combiType))
+    updateSelectInput(session, "yAxisToHide", choices = input$activePlots)
+    #selected = getNamesToDrop(input$activePlots, input$combiType))
+    updateSelectInput(session, "referencePlot", choices = input$activePlots)
 
 
-                                        activePlotsNames(input$activePlots)
-                                        nActivePlots(length(input$activePlots))
-                                        activePlotsData(savedData()[input$activePlots])
+    activePlotsNames(input$activePlots)
+    nActivePlots(length(input$activePlots))
+    activePlotsData(savedData()[input$activePlots])
   })
 
-                      output$showSignifStatus <- reactive({
-                        nActivePlots() >= 2
-                      })
-                      outputOptions(output, "showSignifStatus", suspendWhenHidden = FALSE)
+  output$showSignifStatus <- reactive({
+    nActivePlots() >= 2
+  })
+  outputOptions(output, "showSignifStatus", suspendWhenHidden = FALSE)
 
-                      output$multiPlot <- renderPlot({
-                        req(names(activePlotsData()))
+  output$multiPlot <- renderPlot({
+    req(names(activePlotsData()))
 
-                        tryCatchWithMessage(
-                          makeMultiPlot(
-                            activePlotsData(),
-                            nMarginLines = nMarginLines(),
-                            combiType = input$combiType,
-                            nGridCols = input$nGridCols,
-                            xAxisToHide = input$xAxisToHide,
-                            yAxisToHide = input$yAxisToHide,
-                            showSig = input$showSignif,
-                            referencePlot = input$referencePlot,
-                            sigLevel = input$sigLevel
-                          )
-                        )
+    tryCatchWithMessage(
+      makeMultiPlot(
+        activePlotsData(),
+        nMarginLines = nMarginLines(),
+        combiType = input$combiType,
+        nGridCols = input$nGridCols,
+        xAxisToHide = input$xAxisToHide,
+        yAxisToHide = input$yAxisToHide,
+        showSig = input$showSignif,
+        referencePlot = input$referencePlot,
+        sigLevel = input$sigLevel
+      )
+    )
 
-                        values$plot <- recordPlot()
-                      },
-                      width = reactive(input$previewWidth),
-                      height = reactive(input$previewHeight))
+    values$plot <- recordPlot()
+  },
+  width = reactive(input$previewWidth),
+  height = reactive(input$previewHeight))
 
-                      callModule(
-                        plotExport,
-                        "export",
-                        reactive(values$plot),
-                        plotWidth = reactive(input$previewWidth),
-                        plotHeight = reactive(input$previewHeight)
-                      )
+  callModule(
+    plotExport,
+    "export",
+    reactive(values$plot),
+    plotWidth = reactive(input$previewWidth),
+    plotHeight = reactive(input$previewHeight)
+  )
 }
 
 selectMargin <- function(input, output, session, nData) {

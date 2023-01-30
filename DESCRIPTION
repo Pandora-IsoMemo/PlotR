@@ -20,8 +20,6 @@ Imports:
   magrittr,
   mgcv,
   openxlsx,
-  readxl,
-  readr,
   Rfast,
   rlang,
   shiny,
