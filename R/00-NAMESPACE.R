@@ -4,7 +4,7 @@
 #' @importFrom DT DTOutput renderDT
 #' @importFrom graphics arrows axis box lines mtext par plot points rect text
 #' @importFrom grDevices dev.off pdf png recordPlot replayPlot rgb svg tiff
-#' @importFrom IsoAppTools checkErrorNoNumericColumns checkWarningEmptyValues importDataUI importDataServer
+#' @importFrom DataTools checkErrorNoNumericColumns checkWarningEmptyValues importDataUI importDataServer
 #' @importFrom jsonlite toJSON
 #' @importFrom magrittr %>%
 #' @importFrom mgcv Predict.matrix smoothCon s
