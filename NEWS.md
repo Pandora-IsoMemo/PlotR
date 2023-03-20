@@ -1,5 +1,13 @@
 # PlotR app development version
 
+## Version 23.03.3
+
+### New Features
+- option to load remote models from the github folder `inst/app/predefinedModels` of the respective 
+repository
+- if there is no internet connection remote models are taken from the models that were saved with
+  the last deployed app version
+
 ## Version 23.03.2
 
 ### Updates

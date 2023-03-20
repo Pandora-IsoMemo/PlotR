@@ -70,20 +70,52 @@ uploadModelUI <- function(id, label) {
   tagList(
     tags$hr(),
     tags$h4(label),
-    fileInput(ns("uploadModel"), label = NULL)
+    fileInput(ns("uploadModel"), label = NULL),
+    remoteModelsUI(ns("remoteModels"))
   )
 }
 
 #' @rdname shinyModule
 #' @param uploadedNotes (reactive) variable that stores content for README.txt
-uploadModel <- function(input, output, session, loadedFiles, savedData,
+uploadModel <- function(input,
+                        output,
+                        session,
+                        loadedFiles,
+                        savedData,
+                        #reset,
                         uploadedNotes){
+  pathToModel <- reactiveVal(NULL)
 
   observeEvent(input$uploadModel, {
+    logDebug("Entering (%s) observeEvent(input$uploadModel)", session$ns(""))
+    pathToModel(input$uploadModel$datapath)
+  })
+
+  # observeEvent(reset(), {
+  #   logDebug("Entering (%s) observeEvent(reset())", session$ns(""))
+  #   req(reset())
+  #   updateSelectInput(session, "remoteModel", selected = list())
+  #   pathToModel(NULL)
+  # })
+
+  pathToRemote <- remoteModelsServer("remoteModels",
+                                     githubRepo = "plotr",
+                                     rPackageName = "PlotR",
+                                     rPackageVersion = "PlotR" %>%
+                                       packageVersion() %>%
+                                       as.character())
+
+  observeEvent(pathToRemote(), {
+    logDebug("Entering (%s) observeEvent(pathToRemote())", session$ns(""))
+    pathToModel(pathToRemote())
+  })
+
+  observeEvent(pathToModel(), {
+    logDebug("Entering (%s) observeEvent(pathToModel())", session$ns(""))
     model <- NULL
 
     res <- try({
-      zip::unzip(input$uploadModel$datapath)
+      zip::unzip(pathToModel())
       load("model.Rdata")
     })
 
