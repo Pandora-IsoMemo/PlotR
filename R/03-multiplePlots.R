@@ -8,7 +8,8 @@ multiplePlotsUI <- function(id, title) {
            value = id,
            fluidRow(
              sidebarPanel(
-               style = "position:fixed; width:20%; max-width:350px; overflow-y:auto; height:88%",
+               style = "position:fixed; width:23%; max-width:500px; overflow-y:auto; height:88%",
+               width = 3,
                selectInput(
                  ns("activePlots"),
                  label = "Select saved plots",

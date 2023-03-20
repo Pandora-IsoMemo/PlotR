@@ -7,6 +7,9 @@
 repository
 - if there is no internet connection remote models are taken from the models that were saved with
   the last deployed app version
+  
+### Updates
+- update sidebar widths
 
 ## Version 23.03.2
 
