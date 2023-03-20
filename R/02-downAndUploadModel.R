@@ -16,6 +16,7 @@ downloadModelUI <- function(id, label) {
                 choices = c("Save or upload plots ..." = ""),
                 multiple = T),
     textAreaInput(ns("notes"), "Add notes"),
+    checkboxInput(ns("onlyInputs"), "Store only data and model options"),
     downloadButton(ns("downloadModelButton"), "Download")
   )
 }
@@ -52,6 +53,12 @@ downloadModel <- function(input, output, session, savedData, uploadedNotes){
 
       req(savedData(), input$selectedModels)
       model <- savedData()[input$selectedModels]
+
+      if (input$onlyInputs) {
+        model <- model %>%
+          removeModelOutputs()
+      }
+
       save(model, file = modelfile)
       writeLines(input$notes %>% addPackageVersionNo(),
                  notesfile)
@@ -70,7 +77,7 @@ uploadModelUI <- function(id, label) {
   tagList(
     tags$hr(),
     tags$h4(label),
-    fileInput(ns("uploadModel"), label = NULL),
+    fileInput(ns("uploadModel"), label = NULL, accept = ".zip"),
     remoteModelsUI(ns("remoteModels"))
   )
 }
@@ -174,4 +181,15 @@ addPackageVersionNo <- function(txt){
     as.character()
 
   paste0(txt, "\n\n", "PlotR version ", versionNo, " .")
+}
+
+#' Remove Model Outputs
+#'
+#' @param models list of model objects to be saved
+removeModelOutputs <- function(models) {
+  lapply(models, function(model) {
+    model$plotValues$modelData$modelOutput <- NULL
+    model$plotValues$predictedData <- NULL
+    model
+  })
 }
