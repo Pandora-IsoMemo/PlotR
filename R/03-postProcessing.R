@@ -278,13 +278,23 @@ postProcessing <- function(input, output, session, savedData) {
   })
 
   output$viewSelectedPlot <- renderPlot({
+    validate(
+      need(input$activePlot, "Select a plot ...")
+    )
     req(input$activePlot)
+    validate(
+      need(!is.null(savedData()[[input$activePlot]]$plotValues$modelData), "Data not valid ...")
+    )
+
     makeSinglePlot(savedData()[[input$activePlot]]$plotValues,
                    savedData()[[input$activePlot]]$plotStyle)
   })
 
   output$viewPostPlot <- renderPlot({
-    req(activePostPlot())
+    validate(
+      need(activePostPlot(), "Apply post processing ...")
+    )
+
     makeSinglePlot(activePostPlot()$plotValues, activePostPlot()$plotStyle)
     values$plot <- recordPlot()
   })

@@ -113,12 +113,14 @@ makePlot <- function(plotValues, plotStyle, hideXAxis = FALSE, hideYAxis = FALSE
 
   plotDataPointsAdd(pointDat = plotStyle$morePoints)
 
-  plotPredictions(predData = plotValues$predictedData$evenlyOnX,
-                  centerType = plotValues$plottedTypeOfPrediction$centerType,
-                  errorType = plotValues$plottedTypeOfPrediction$errorType,
-                  uncertaintyFactor = plotValues$plottedTypeOfPrediction$SDFactor,
-                  stylePrediction = plotStyle$predictionLine,
-                  styleUncertainty = plotStyle$modelUncertainty)
+  if (!is.null(plotValues$predictedData)) {
+    plotPredictions(predData = plotValues$predictedData$evenlyOnX,
+                    centerType = plotValues$plottedTypeOfPrediction$centerType,
+                    errorType = plotValues$plottedTypeOfPrediction$errorType,
+                    uncertaintyFactor = plotValues$plottedTypeOfPrediction$SDFactor,
+                    stylePrediction = plotStyle$predictionLine,
+                    styleUncertainty = plotStyle$modelUncertainty)
+  }
 }
 
 plotAxes <- function(plotStyle,

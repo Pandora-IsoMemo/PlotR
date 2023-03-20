@@ -270,8 +270,9 @@ runModel <- function(input, output, session, loadedFiles) {
 
   # render plot ####
   output$plot <- renderPlot({
-    if (is.null(plotValues$predictedData$evenlyOnX))
-      return(NULL)
+    validate(
+      need(!is.null(plotValues$modelData), "Load a plot ...")
+    )
 
     makeSinglePlot(reactiveValuesToList(plotValues),
                    reactiveValuesToList(plotStyle))

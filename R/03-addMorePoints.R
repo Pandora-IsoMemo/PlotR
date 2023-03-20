@@ -226,8 +226,14 @@ addMorePoints <- function(input, output, session, savedData) {
   # render plot ####
   values <- reactiveValues(plot = NULL)
   output$styledPlot <- renderPlot({
+    validate(
+      need(input$activePlot, "Select a plot ...")
+    )
     req(input$activePlot)
-    req(activePlotValues$predictedData$evenlyOnX)
+    validate(
+      need(!is.null(activePlotValues$modelData), "Data not valid ...")
+    )
+
     makeSinglePlot(
       reactiveValuesToList(activePlotValues),
       reactiveValuesToList(activePlotStyle)

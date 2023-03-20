@@ -259,8 +259,9 @@ multiplePlots <- function(input, output, session, savedData) {
   outputOptions(output, "showSignifStatus", suspendWhenHidden = FALSE)
 
   output$multiPlot <- renderPlot({
-    req(names(activePlotsData()))
-
+    validate(
+      need(names(activePlotsData()), "Select plots ...")
+    )
     tryCatchWithMessage(
       makeMultiPlot(
         activePlotsData(),
