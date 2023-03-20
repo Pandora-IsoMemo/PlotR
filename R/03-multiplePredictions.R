@@ -302,7 +302,8 @@ multiplePredictions <-
               moreNSample = moreX()$nSample,
               plotValues = x$plotValues
             ) %>%
-              tryCatchWithWarningsAndErrors(errorTitle = "Prediction failed", alertStyle = "shinyalert")
+              tryCatchWithWarningsAndErrors(errorTitle = paste("Prediction failed for", x$plotName),
+                                            alertStyle = "shinyalert")
           }))
         }
       )
@@ -357,7 +358,8 @@ multiplePredictions <-
               moreSD = moreXUploaded()$XUncertainty,
               plotValues = x$plotValues
             ) %>%
-              tryCatchWithWarningsAndErrors(errorTitle = "Prediction failed", alertStyle = "shinyalert")
+              tryCatchWithWarningsAndErrors(errorTitle = paste("Prediction failed for", x$plotName),
+                                            alertStyle = "shinyalert")
           }))
         }
       )
