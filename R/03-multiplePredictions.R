@@ -301,7 +301,8 @@ multiplePredictions <-
               moreSD = moreX()$sd,
               moreNSample = moreX()$nSample,
               plotValues = x$plotValues
-            )
+            ) %>%
+              tryCatchWithWarningsAndErrors(errorTitle = "Prediction failed", alertStyle = "shinyalert")
           }))
         }
       )
@@ -355,7 +356,8 @@ multiplePredictions <-
               moreMean = moreXUploaded()$X,
               moreSD = moreXUploaded()$XUncertainty,
               plotValues = x$plotValues
-            )
+            ) %>%
+              tryCatchWithWarningsAndErrors(errorTitle = "Prediction failed", alertStyle = "shinyalert")
           }))
         }
       )
@@ -364,6 +366,7 @@ multiplePredictions <-
     observe({
       req(predictedEstimationList())
       predictedEstimation(lapply(predictedEstimationList(), function(x) {
+        if (is.null(x)) return(x)
         if (input$aggPrediction)
           colMeans(x)
         else

@@ -228,8 +228,10 @@ postProcessing <- function(input, output, session, savedData) {
       smoothConst = postPlotValues$modelParameters$smoothConst,
       postProcessing = TRUE,
       ppValues = ppValues
-    )
+    ) %>%
+      tryCatchWithWarningsAndErrors(errorTitle = "Prediction failed", alertStyle = "shinyalert")
 
+    req(!is.null(predictedData))
     postPlotValues$predictedData <- predictedData
 
     postPlotStyle <- savedData()[[input$activePlot]]$plotStyle

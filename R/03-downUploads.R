@@ -117,21 +117,21 @@ downUploads <-
       uploadedNotes = uploadedNotes
     )
 
-    dataFun <- reactive({
-      req(input$activePlot)
-      req(activePlotValues$modelData)
-      function(xVar, quantile) {
-        savedData <-
-          predictPipe(
-            plotRModel = activePlotValues$modelData$modelOutput,
-            xCol = activePlotValues$prepData$X,
-            xVar = xVar,
-            yName = activePlotValues$ySelection$colNames$colName1,
-            quantile = quantile
-          )
-        return(savedData)
-      }
-    })
+    # dataFun <- reactive({
+    #   req(input$activePlot)
+    #   req(activePlotValues$modelData)
+    #   function(xVar, quantile) {
+    #     savedData <-
+    #       predictPipe(
+    #         plotRModel = activePlotValues$modelData$modelOutput,
+    #         xCol = activePlotValues$prepData$X,
+    #         xVar = xVar,
+    #         yName = activePlotValues$ySelection$colNames$colName1,
+    #         quantile = quantile
+    #       )
+    #     return(savedData)
+    #   }
+    # })
 
     #callModule(dataExport, "exportData", dat = dataFun, filename = "modelData")
     callModule(plotExport, "export", reactive(values$plot))

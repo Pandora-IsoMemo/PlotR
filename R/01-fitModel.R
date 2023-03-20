@@ -62,8 +62,10 @@ getPlotValues <- function(plotValues, activeFile, activeFileData, dataSelection,
 
   plotValues$predictedData <- predictData(modelData = plotValues$modelData$modelOutput,
                                prepData = prepData,
-                               smoothConst = plotValues$modelParameters$smoothConst)
+                               smoothConst = plotValues$modelParameters$smoothConst) %>%
+    tryCatchWithWarningsAndErrors(errorTitle = "Prediction failed", alertStyle = "shinyalert")
 
+  req(!is.null(plotValues$predictedData))
   plotValues$defaultXRange <- getRange(
     data = plotValues$selectedData[, unlist(xSelection$colNames),
                                    drop = FALSE],
@@ -99,8 +101,10 @@ getModelFit <- function(data,
 
     predictedData <- predictData(modelData = modelOutput,
                                  prepData = prepData,
-                                 smoothConst = modelParameters$smoothConst)
+                                 smoothConst = modelParameters$smoothConst) %>%
+      tryCatchWithWarningsAndErrors(errorTitle = "Prediction failed", alertStyle = "shinyalert")
 
+    req(!is.null(predictedData))
     data <- findModelOutlier(data = data,
                              predictedData = predictedData$observations,
                              yNames = ySelection$colNames,

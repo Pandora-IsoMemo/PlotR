@@ -348,7 +348,9 @@ runModel <- function(input, output, session, loadedFiles) {
         xVar = xVar,
         yName = getSelection(plotValues$dataSettings$yColumns)$colNames$colName1,
         quantile = quantile
-      )
+      ) %>%
+        tryCatchWithWarningsAndErrors(errorTitle = "Prediction failed", alertStyle = "shinyalert")
+
       return(data)
     }
   })
