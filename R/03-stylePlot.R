@@ -383,7 +383,7 @@ stylePlot <- function(input, output, session, savedData) {
     )
     req(input$activePlot)
     validate(
-      need(!is.null(activePlotValues$modelData), "Data not valid ...")
+      need(!is.null(activePlotValues$defaultXRange), "Data not valid ...")
     )
 
     makeSinglePlot(

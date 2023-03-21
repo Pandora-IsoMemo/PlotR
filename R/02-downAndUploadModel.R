@@ -188,7 +188,7 @@ addPackageVersionNo <- function(txt){
 #' @param models list of model objects to be saved
 removeModelOutputs <- function(models) {
   lapply(models, function(model) {
-    model$plotValues$modelData$modelOutput <- NULL
+    model$plotValues$modelData <- NULL
     model$plotValues$predictedData <- NULL
     model
   })

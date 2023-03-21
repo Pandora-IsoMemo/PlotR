@@ -285,7 +285,7 @@ postProcessing <- function(input, output, session, savedData) {
     )
     req(input$activePlot)
     validate(
-      need(!is.null(savedData()[[input$activePlot]]$plotValues$modelData), "Data not valid ...")
+      need(!is.null(savedData()[[input$activePlot]]$plotValues$defaultXRange), "Data not valid ...")
     )
 
     makeSinglePlot(savedData()[[input$activePlot]]$plotValues,
