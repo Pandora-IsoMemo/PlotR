@@ -68,6 +68,24 @@ downloadModel <- function(input, output, session, savedData, uploadedNotes){
 
 }
 
+addPackageVersionNo <- function(txt){
+  versionNo <- packageVersion("PlotR") %>%
+    as.character()
+
+  paste0(txt, "\n\n", "PlotR version ", versionNo, " .")
+}
+
+#' Remove Model Outputs
+#'
+#' @param models list of model objects to be saved
+removeModelOutputs <- function(models) {
+  lapply(models, function(model) {
+    model$plotValues$modelData <- NULL
+    model$plotValues$predictedData <- NULL
+    model
+  })
+}
+
 # Upload a plot ####
 
 #' @rdname shinyModule
@@ -137,6 +155,27 @@ uploadModel <- function(input,
         type = "error"
       )
     } else {
+      if (any(names(model) %in% names(savedData()))) {
+        nameExists <- which(names(model) %in% names(savedData()))
+        shinyalert(
+          title = "Duplicated plot names",
+          text = paste(
+            "Plot name\n",
+            paste(names(model)[nameExists], collapse = ", "),
+            "\n already exist and was updated."
+          ),
+          type = "warning"
+        )
+
+        # rename duplicated plot names
+        newNames <- names(model)
+        while (any(newNames %in% names(savedData()))) {
+          nameExists <- which(newNames %in% names(savedData()))
+          newNames[nameExists] <- lapply(newNames[nameExists], incIndexOfName)
+          names(model) <- newNames
+        }
+      }
+
       savedData(c(savedData(), model))
       updateSelectInput(session, "activePlot", choices = names(savedData()),
                         selected = names(savedData())[length(savedData())])
@@ -166,7 +205,7 @@ uploadModel <- function(input,
 
       uploadedNotes(readLines("README.txt")[[1]])
 
-      shinyalert("Model loaded", type = "success")
+      shinyalert("Upload finished", type = "success")
     }
 
     # clean up
@@ -176,20 +215,29 @@ uploadModel <- function(input,
   })
 }
 
-addPackageVersionNo <- function(txt){
-  versionNo <- packageVersion("PlotR") %>%
-    as.character()
-
-  paste0(txt, "\n\n", "PlotR version ", versionNo, " .")
-}
-
-#' Remove Model Outputs
+#' Inc Index Of Name
 #'
-#' @param models list of model objects to be saved
-removeModelOutputs <- function(models) {
-  lapply(models, function(model) {
-    model$plotValues$modelData <- NULL
-    model$plotValues$predictedData <- NULL
-    model
-  })
+#' If the name has no index, add a new index: "(1)". If an index already exists, increase it by one.
+#'
+#' @param name (character) name
+incIndexOfName <- function(name) {
+  # extract index
+  currentIndex <-
+    regmatches(name, regexpr("\\([[:digit:]]+\\)$", name))
+
+  # inc index
+  if (length(currentIndex) == 0) {
+    paste0(name, "(1)")
+  } else {
+    # get new index
+    newIndex <- currentIndex %>%
+      gsub(pattern = "\\(|\\)",
+           replacement = "") %>%
+      as.numeric() + 1
+
+    # replace with new index
+    gsub("\\([[:digit:]]+\\)$" ,
+         paste0("(", newIndex, ")") ,
+         name)
+  }
 }

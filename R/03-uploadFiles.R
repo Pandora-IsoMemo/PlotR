@@ -91,23 +91,7 @@ incIndexOfFile <- function(fileName) {
   # remove type
   fileName <- gsub(".[[:alnum:]]*$", "", fileName)
 
-  # extract index
-  currentIndex <-
-    regmatches(fileName, regexpr("\\([[:digit:]]+\\)$", fileName))
+  fileName <- incIndexOfName(fileName)
 
-  # inc index
-  if (length(currentIndex) == 0) {
-    paste0(fileName, "(1)", fileType)
-  } else {
-    # get new index
-    newIndex <- currentIndex %>%
-      gsub(pattern = "\\(|\\)",
-           replacement = "") %>%
-      as.numeric() + 1
-
-    # replace with new index
-    gsub("\\([[:digit:]]+\\)$" ,
-         paste0("(", newIndex, ")", fileType) ,
-         fileName)
-  }
+  paste0(fileName, fileType)
 }
