@@ -45,7 +45,7 @@ deriveExplanatory <- function(moreMean, moreSD,
                               graphName,
                               moreNSample = NULL,
                               isTest = FALSE) {
-
+  if (is.null(plotValues$modelData$modelOutput)) stop("Cannot derive explanatory! No model output found.")
   modelData <- plotValues$modelData$modelOutput
   prepData <- getPrepData(data = plotValues$selectedData,
                           xSelection = getSelection(plotValues$dataSettings$xColumns),

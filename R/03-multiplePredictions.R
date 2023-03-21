@@ -399,7 +399,9 @@ multiplePredictions <-
           moreNSample = moreY()$nSample,
           plotValues = x$plotValues,
           graphName = x$plotName
-        )
+        ) %>%
+          tryCatchWithWarningsAndErrors(errorTitle = paste("Calculation failed for", x$plotName),
+                                        alertStyle = "shinyalert")
       }))
     })
 
@@ -432,13 +434,16 @@ multiplePredictions <-
           moreSD = moreYUploaded()$YUncertainty,
           plotValues = x$plotValues,
           graphName = x$plotName
-        )
+        ) %>%
+          tryCatchWithWarningsAndErrors(errorTitle = paste("Calculation failed for", x$plotName),
+                                        alertStyle = "shinyalert")
       }))
     })
 
     observe({
       req(derivedExplanatoryList())
       derivedExplanatory(lapply(derivedExplanatoryList(), function(x) {
+        if (is.null(x)) return(x)
         if (input$aggExplanatory)
           colMeans(x)
         else
