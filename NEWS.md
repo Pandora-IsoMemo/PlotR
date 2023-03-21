@@ -7,9 +7,15 @@
 repository
 - if there is no internet connection remote models are taken from the models that were saved with
   the last deployed app version
+- option to save only user inputs and data without the model output
+- option to plot data before/without running the model
   
 ### Updates
 - update sidebar widths
+
+### Bug fixes
+- if the name of an uploaded plot already exists the name of the new plot is updated, thus rendering
+of plots is triggered correctly
 
 ## Version 23.03.2
 
