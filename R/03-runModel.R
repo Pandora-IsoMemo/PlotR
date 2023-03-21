@@ -26,9 +26,10 @@ runModelUI <- function(id, title) {
                ),
                tags$br(),
                dataSettingsUI(ns("settings"), "Data Settings"),
+               actionButton(ns("plotData"), "Plot Data"),
+               tags$br(),
                tags$br(),
                modelSettingsUI(ns("modSettings"), "Model Settings"),
-               tags$br(),
                actionButton(ns("calculateModel"), "Run Model")
              ),
              mainPanel(
@@ -215,17 +216,39 @@ runModel <- function(input, output, session, loadedFiles) {
     currentModelParams(modelParameters())
   })
 
+  # plot data ----
+
+  observe({
+    req(activeFileData())
+
+    plotValues <- plotValues %>%
+      selectDataWrapper(activeFile = input$activeFile,
+                        activeFileData = activeFileData(),
+                        dataSelection = currentDataSelection)
+
+    plotStyle$xAxisLabel$text <-
+      cleanLabel(plotValues$dataSettings$xColumns)
+    plotStyle$yAxisLabel$text <-
+      cleanLabel(plotValues$dataSettings$yColumns)
+
+    plotStyle$xRange <- plotValues$defaultXRange
+    plotStyle$yRange <- getRange(
+      data = plotValues$selectedData[, unlist(getSelection(plotValues$dataSettings$yColumns)$colNames), drop = FALSE],
+      type = getSelection(plotValues$dataSettings$yColumns)$type,
+      credPercent = getSelection(plotValues$dataSettings$yColumns)$credPercent
+    )
+  }) %>%
+    bindEvent(input$plotData)
+
   # calculate model ####
   observeEvent(input$calculateModel, {
     req(activeFileData())
 
-    plotValues <- getPlotValues(
-      plotValues = plotValues,
-      activeFile = input$activeFile,
-      activeFileData = activeFileData(),
-      dataSelection = currentDataSelection,
-      modelParameters = currentModelParams()
-    )
+    plotValues <- plotValues %>%
+      selectDataWrapper(activeFile = input$activeFile,
+                        activeFileData = activeFileData(),
+                        dataSelection = currentDataSelection) %>%
+      fitModelWrapper(modelParameters = currentModelParams())
 
     plotStyle$xRange <- plotValues$defaultXRange
     plotStyle$xAxisLabel$text <-
@@ -271,7 +294,7 @@ runModel <- function(input, output, session, loadedFiles) {
   # render plot ####
   output$plot <- renderPlot({
     validate(
-      need(!is.null(plotValues$modelData), "Load a plot ...")
+      need(!is.null(plotValues$defaultXRange), "Load a plot ...")
     )
 
     makeSinglePlot(reactiveValuesToList(plotValues),
