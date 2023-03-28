@@ -3,7 +3,7 @@
 ## Version 23.03.4
 
 ### Updates
-- warning if the sample size is below 8 (#24)
+- warning after modeling if the sample size is below 8 (#24)
 
 ## Version 23.03.3
 
