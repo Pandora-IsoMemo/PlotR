@@ -7,7 +7,7 @@ utils::globalVariables(c("standardizedX", "Date3"))
 #'
 #' @param plotValues (list) list with all values required for the plot
 #' @param modelParameters (list) list of settings for the model
-fitModelWrapper <- function(plotValues,
+fitModel <- function(plotValues,
                             modelParameters){
   plotValues$modelData <- NULL
   plotValues$predictedData <- NULL
