@@ -4,7 +4,7 @@
 #'  importDataServer remoteModelsUI remoteModelsServer tryCatchWithWarningsAndErrors
 #' @importFrom dplyr bind_cols bind_rows filter if_else mutate
 #' @importFrom DT DTOutput renderDT
-#' @importFrom graphics arrows axis box lines mtext par plot points rect text
+#' @importFrom graphics arrows axis box lines mtext par plot points rect text legend
 #' @importFrom grDevices dev.off pdf png recordPlot replayPlot rgb svg tiff
 #' @importFrom jsonlite toJSON
 #' @importFrom magrittr %>%

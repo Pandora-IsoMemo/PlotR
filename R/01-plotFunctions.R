@@ -46,7 +46,7 @@ makeMultiPlot <- function(valuesList, nMarginLines, combiType = "rowGrid", nGrid
               position = legendPosition,
               title = "Color for data points",
               legendEntries = names(valuesList),
-              fill = unlist(lapply(valuesList, function(x) x$plotStyle$dataPoints$color)))
+              fillColor = unlist(lapply(valuesList, function(x) x$plotStyle$dataPoints$color)))
   }
 
   if(combiType == "fullGrid") {
