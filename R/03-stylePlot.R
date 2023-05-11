@@ -315,7 +315,7 @@ stylePlot <- function(input, output, session, savedData) {
     updateColourInput(session, "lineColor", value = activePlotStyle[[getLastSelected(lastSelected$line, "predictionLine")]]$color)
     updateSelectInput(session, "lineType", selected = activePlotStyle[[getLastSelected(lastSelected$line, "predictionLine")]]$lineType)
     updateSliderInput(session, "lineWidth", value = activePlotStyle[[getLastSelected(lastSelected$line, "predictionLine")]]$lineWidth)
-    updateCheckboxInput(session, "hideHide", value = activePlotStyle[[getLastSelected(lastSelected$line, "predictionLine")]]$hideHide)
+    updateCheckboxInput(session, "hideHide", value = activePlotStyle[[getLastSelected(lastSelected$line, "predictionLine")]]$hide)
 
     # uncertainty band
     updateColourInput(session, "uncertaintyBandColor", value = activePlotStyle$modelUncertainty$bandColor)
