@@ -221,7 +221,7 @@ stylePlotUI <- function(id, title) {
                      label = "Uncertainty Band Opacity",
                      min = 0,
                      max = 1,
-                     value = 0.5,
+                     value = 0.2,
                      step = 0.1
                    )
                  )
