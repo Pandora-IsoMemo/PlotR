@@ -8,7 +8,8 @@ multiplePlotsUI <- function(id, title) {
            value = id,
            fluidRow(
              sidebarPanel(
-               style = "position:fixed; width:20%; max-width:350px; overflow-y:auto; height:88%",
+               style = "position:fixed; width:23%; max-width:500px; overflow-y:auto; height:88%",
+               width = 3,
                selectInput(
                  ns("activePlots"),
                  label = "Select saved plots",
@@ -61,7 +62,9 @@ multiplePlotsUI <- function(id, title) {
                    ),
                    conditionalPanel(condition = "input.combiType == 'joinedPlot'",
                                     ns = ns,
-                                    selectMarginUI(ns("margins")))
+                                    selectMarginUI(ns("margins")),
+                                    addLegendUI(ns("joinedPlot"))
+                   )
                  )
                ),
                tags$br(),
@@ -256,10 +259,10 @@ multiplePlots <- function(input, output, session, savedData) {
     nActivePlots() >= 2
   })
   outputOptions(output, "showSignifStatus", suspendWhenHidden = FALSE)
-
   output$multiPlot <- renderPlot({
-    req(names(activePlotsData()))
-
+    validate(
+      need(names(activePlotsData()), "Select plots ...")
+    )
     tryCatchWithMessage(
       makeMultiPlot(
         activePlotsData(),
@@ -270,7 +273,8 @@ multiplePlots <- function(input, output, session, savedData) {
         yAxisToHide = input$yAxisToHide,
         showSig = input$showSignif,
         referencePlot = input$referencePlot,
-        sigLevel = input$sigLevel
+        sigLevel = input$sigLevel,
+        legendPosition = input[["joinedPlot-legend"]]
       )
     )
 

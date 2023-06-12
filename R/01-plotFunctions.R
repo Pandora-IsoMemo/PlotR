@@ -1,6 +1,6 @@
 makeMultiPlot <- function(valuesList, nMarginLines, combiType = "rowGrid", nGridCols = 2,
                           xAxisToHide = NULL, yAxisToHide = NULL, showSig = FALSE,
-                          referencePlot = NULL, sigLevel = 0.95
+                          referencePlot = NULL, sigLevel = 0.95, legendPosition
                           ){
 
   if (is.null(names(valuesList))) return(NULL)
@@ -39,6 +39,14 @@ makeMultiPlot <- function(valuesList, nMarginLines, combiType = "rowGrid", nGrid
                hideYAxis = (p %in% yAxisToHide),
                marginLine = 3 * (i - 1))
     }
+
+    # add legend to multiplot
+      addLegendServer(
+              id = "joinedPlot",
+              position = legendPosition,
+              title = "Color for data points",
+              legendEntries = names(valuesList),
+              fillColor = unlist(lapply(valuesList, function(x) x$plotStyle$dataPoints$color)))
   }
 
   if(combiType == "fullGrid") {
@@ -93,32 +101,56 @@ makePlot <- function(plotValues, plotStyle, hideXAxis = FALSE, hideYAxis = FALSE
            hideXAxis = hideXAxis,
            hideYAxis = hideYAxis
   )
-  plotDataPoints(removeModelOutliers(plotValues$modelData$data),
-                 xNames = xSel$colNames, xType = xSel$type, xCredPercent = xSel$credPercent,
-                 yNames = ySel$colNames, yType = ySel$type, yCredPercent = ySel$credPercent,
-                 stylePoints = plotStyle$dataPoints,
-                 styleIntervals = plotStyle$dataIntervals)
 
+  # points are drawn in the following order
+  # 1. plot normal points ----
+  if (!is.null(plotValues$modelData$data)) {
+    # plot data without data and model outliers
+    plotDataPoints(removeModelOutliers(plotValues$modelData$data),
+                   xNames = xSel$colNames, xType = xSel$type, xCredPercent = xSel$credPercent,
+                   yNames = ySel$colNames, yType = ySel$type, yCredPercent = ySel$credPercent,
+                   stylePoints = plotStyle$dataPoints,
+                   styleIntervals = plotStyle$dataIntervals)
+  } else {
+    # plot data without data outliers
+    plotDataPoints(removeDataOutliers(plotValues$selectedData),
+                   xNames = xSel$colNames, xType = xSel$type, xCredPercent = xSel$credPercent,
+                   yNames = ySel$colNames, yType = ySel$type, yCredPercent = ySel$credPercent,
+                   stylePoints = plotStyle$dataPoints,
+                   styleIntervals = plotStyle$dataIntervals)
+  }
+
+  # 2. plot outliers ----
+  # plot data outliers
   plotDataPoints(selectDataOutliers(plotValues$selectedData),
                  xNames = xSel$colNames, xType = xSel$type, xCredPercent = xSel$credPercent,
                  yNames = ySel$colNames, yType = ySel$type, yCredPercent = ySel$credPercent,
                  stylePoints = plotStyle$dataOutliers,
                  styleIntervals = plotStyle$dataOutlierIntervals)
 
-  plotDataPoints(selectModelOutliers(plotValues$modelData$data),
-                 xNames = xSel$colNames, xType = xSel$type, xCredPercent = xSel$credPercent,
-                 yNames = ySel$colNames, yType = ySel$type, yCredPercent = ySel$credPercent,
-                 stylePoints = plotStyle$modelOutliers,
-                 styleIntervals = plotStyle$modelOutlierIntervals)
+  if (!is.null(plotValues$modelData$data)) {
+    # plot model outliers
+    plotDataPoints(selectModelOutliers(plotValues$modelData$data),
+                   xNames = xSel$colNames, xType = xSel$type, xCredPercent = xSel$credPercent,
+                   yNames = ySel$colNames, yType = ySel$type, yCredPercent = ySel$credPercent,
+                   stylePoints = plotStyle$modelOutliers,
+                   styleIntervals = plotStyle$modelOutlierIntervals)
+  }
 
+
+
+  # 3. plot prediction ----
+  if (!is.null(plotValues$predictedData)) {
+    plotPredictions(predData = plotValues$predictedData$evenlyOnX,
+                    centerType = plotValues$plottedTypeOfPrediction$centerType,
+                    errorType = plotValues$plottedTypeOfPrediction$errorType,
+                    uncertaintyFactor = plotValues$plottedTypeOfPrediction$SDFactor,
+                    stylePrediction = plotStyle$predictionLine,
+                    styleUncertainty = plotStyle$modelUncertainty)
+  }
+
+  # 4. plot manually added data ----
   plotDataPointsAdd(pointDat = plotStyle$morePoints)
-
-  plotPredictions(predData = plotValues$predictedData$evenlyOnX,
-                  centerType = plotValues$plottedTypeOfPrediction$centerType,
-                  errorType = plotValues$plottedTypeOfPrediction$errorType,
-                  uncertaintyFactor = plotValues$plottedTypeOfPrediction$SDFactor,
-                  stylePrediction = plotStyle$predictionLine,
-                  styleUncertainty = plotStyle$modelUncertainty)
 }
 
 plotAxes <- function(plotStyle,
@@ -273,7 +305,7 @@ maxRange <- function(range) {
   max(range) + 0.5*diff(range) %>% signif(digits = 3)
 }
 
-getRange <- function(data, type, credPercent, estimation) {
+getRange <- function(data, type, credPercent, estimation = NULL) {
 
   dataPoints <- getMean(data, dataType = type)
   dataDeviation <- getUncertainty(data, dataType = type, credPercent = credPercent, zeroIfPoint = TRUE)
@@ -298,6 +330,8 @@ plotPredictions <- function(predData,
   uncertaintyLineType <- styleUncertainty$lineType
   uncertaintyWidth <- styleUncertainty$lineWidth
   uncertaintyHide <- styleUncertainty$hide
+  uncertaintyBandColor <- styleUncertainty$bandColor
+  uncertaintyBandOpacity <- styleUncertainty$bandOpacity
 
   plotRPred <- predData
 
@@ -329,22 +363,41 @@ plotPredictions <- function(predData,
     }
   }
 
+  upperValues <- getUncertaintyLimit(plotRPred,
+                                     type = errorType,
+                                     factor = uncertaintyFactor)$upper
+
+  lowerValues <- getUncertaintyLimit(plotRPred,
+                                     type = errorType,
+                                     factor = uncertaintyFactor)$lower
+
   plotLines(hide = uncertaintyHide,
-            getUncertaintyLimit(plotRPred,
-                                type = errorType,
-                                factor = uncertaintyFactor)$upper ~ plotRPred$xVar,
+            upperValues ~ plotRPred$xVar,
             lwd = uncertaintyWidth,
             lty = uncertaintyLineType,
             col = uncertaintyColor)
   plotLines(hide = uncertaintyHide,
-            getUncertaintyLimit(plotRPred,
-                                type = errorType,
-                                factor = uncertaintyFactor)$lower ~ plotRPred$xVar,
+            lowerValues ~ plotRPred$xVar,
             lwd = uncertaintyWidth,
             lty = uncertaintyLineType,
             col = uncertaintyColor)
+
+  # Add color band between model prediction uncertainty lines
+  polygon(c(plotRPred$xVar, rev(plotRPred$xVar), plotRPred$xVar[1]),
+          c(lowerValues, rev(upperValues), lowerValues[1]),
+          col = hex_with_opacity(hex = uncertaintyBandColor, opacity = uncertaintyBandOpacity))
+
   # lines((plotRPred$Estimation + 1.96 * plotRPred$SETOTAL) ~ plotRPred$xVar, lwd = 1, lty = 3)
   # lines((plotRPred$Estimation - 1.96 * plotRPred$SETOTAL) ~ plotRPred$xVar, lwd = 1, lty = 3)
+}
+
+#' Convert hex to hex with opacity
+#'
+#' @param hex color in hex format
+#' @param opacity opacity value between 0 and 1
+hex_with_opacity <- function(hex, opacity){
+  rgb_col <- col2rgb(hex)
+  rgb(rgb_col[1], rgb_col[2], rgb_col[3], opacity * 255, maxColorValue = 255)
 }
 
 plotLines <- function(hide, x, ...) {
@@ -387,4 +440,39 @@ cleanLabel <- function(dataColumns) {
 emptyPlot <- function(label = "No data available") {
   plot(0:1, 0:1, pch = NA, xlab = "", ylab = "")
   text(0.5, 0.5, label = label, col = "red")
+}
+
+
+
+#' selectInput to specify legend position
+#'
+#' @param id module id
+#' @param label label of button
+#' @param choices choices e.g. "bottomright", "bottom", "bottomleft", "left", "topleft", "top", "topright", "right" and "center"
+addLegendUI <- function(id, label = "Legend Position", choices = c("none", "topleft", "topright", "bottomright", "bottomleft")) {
+  ns <- NS(id)
+    selectizeInput(inputId = ns("legend"),
+                   label = label,
+                   choices = choices)
+}
+
+#' Add a legend to an existing plot
+#'
+#' @param id module id
+#' @param position legend position, e.g. "bottomright", "bottom", "bottomleft", "left", "topleft", "top", "topright", "right" and "center"
+#' @param title legend title
+#' @param legendEntries names of legend entries
+#' @param fillColor color for the legend symbols
+addLegendServer <- function(id, position, title, legendEntries, fillColor) {
+  moduleServer(
+    id,
+    function(input, output, session) {
+      if(position != "none"){
+      legend(x = position,
+             title = title,
+             legend = legendEntries,
+             fill = fillColor)
+      }
+    }
+  )
 }

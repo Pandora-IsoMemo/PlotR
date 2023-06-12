@@ -8,27 +8,23 @@ runModelUI <- function(id, title) {
            value = id,
            fluidRow(
              sidebarPanel(
-               style = "position:fixed; width:20%; max-width:350px; overflow-y:auto; height:88%",
-               fluidRow(
-                 column(8,
-                        selectInput(
-                          ns("activeFile"),
-                          label = "Select a file",
-                          choices = c("Import a file ..." = "")
-                        )),
-                 column(
-                   4,
-                   align = "left",
-                   style = "margin-top: 16px;",
-                   actionButton(ns("loadFile"), "Load", width = "90%")
-                 )
+               style = "position:fixed; width:23%; max-width:500px; overflow-y:auto; height:88%",
+               width = 3,
+               selectInput(
+                 ns("activeFile"),
+                 label = "Select a data file and press 'Load'",
+                 choices = c("Import a file ..." = ""),
+                 width = "100%"
                ),
-               tags$br(),
+               actionButton(ns("loadFile"), "Load", width = "40%"),
+               tags$hr(),
                dataSettingsUI(ns("settings"), "Data Settings"),
+               actionButton(ns("plotData"), "Plot Data", width = "40%"),
+               tags$br(),
                tags$br(),
                modelSettingsUI(ns("modSettings"), "Model Settings"),
                tags$br(),
-               actionButton(ns("calculateModel"), "Run Model")
+               actionButton(ns("calculateModel"), "Run Model", width = "40%")
              ),
              mainPanel(
                width = 8,
@@ -214,17 +210,39 @@ runModel <- function(input, output, session, loadedFiles) {
     currentModelParams(modelParameters())
   })
 
+  # plot data ----
+
+  observe({
+    req(activeFileData())
+
+    plotValues <- plotValues %>%
+      selectDataWrapper(activeFile = input$activeFile,
+                        activeFileData = activeFileData(),
+                        dataSelection = currentDataSelection)
+
+    plotStyle$xAxisLabel$text <-
+      cleanLabel(plotValues$dataSettings$xColumns)
+    plotStyle$yAxisLabel$text <-
+      cleanLabel(plotValues$dataSettings$yColumns)
+
+    plotStyle$xRange <- plotValues$defaultXRange
+    plotStyle$yRange <- getRange(
+      data = plotValues$selectedData[, unlist(getSelection(plotValues$dataSettings$yColumns)$colNames), drop = FALSE],
+      type = getSelection(plotValues$dataSettings$yColumns)$type,
+      credPercent = getSelection(plotValues$dataSettings$yColumns)$credPercent
+    )
+  }) %>%
+    bindEvent(input$plotData)
+
   # calculate model ####
   observeEvent(input$calculateModel, {
     req(activeFileData())
 
-    plotValues <- getPlotValues(
-      plotValues = plotValues,
-      activeFile = input$activeFile,
-      activeFileData = activeFileData(),
-      dataSelection = currentDataSelection,
-      modelParameters = currentModelParams()
-    )
+    plotValues <- plotValues %>%
+      selectDataWrapper(activeFile = input$activeFile,
+                        activeFileData = activeFileData(),
+                        dataSelection = currentDataSelection) %>%
+      fitModel(modelParameters = currentModelParams())
 
     plotStyle$xRange <- plotValues$defaultXRange
     plotStyle$xAxisLabel$text <-
@@ -269,8 +287,9 @@ runModel <- function(input, output, session, loadedFiles) {
 
   # render plot ####
   output$plot <- renderPlot({
-    if (is.null(plotValues$predictedData$evenlyOnX))
-      return(NULL)
+    validate(
+      need(!is.null(plotValues$defaultXRange), "Load a plot ...")
+    )
 
     makeSinglePlot(reactiveValuesToList(plotValues),
                    reactiveValuesToList(plotStyle))
@@ -333,22 +352,14 @@ runModel <- function(input, output, session, loadedFiles) {
   # export data ####
   dataFun <- reactive({
     req(plotValues$modelData)
-    function(xVar, quantile) {
-      prepData <- getPrepData(
-        data = plotValues$selectedData,
-        xSelection = getSelection(plotValues$dataSettings$xColumns),
-        ySelection = getSelection(plotValues$dataSettings$yColumns)
-      )
 
-      data <- predictPipe(
-        plotRModel = plotValues$modelData$modelOutput,
-        xCol = prepData$X,
-        xVar = xVar,
-        yName = getSelection(plotValues$dataSettings$yColumns)$colNames$colName1,
-        quantile = quantile
-      )
-      return(data)
-    }
+    function(xVar, quantile) calcExportData(
+      xVar,
+      quantile,
+      data = plotValues$selectedData,
+      xSelection = getSelection(plotValues$dataSettings$xColumns),
+      ySelection = getSelection(plotValues$dataSettings$yColumns),
+      modelOutput = plotValues$modelData$modelOutput)
   })
 
   callModule(dataExport,
@@ -494,7 +505,9 @@ getPlotStyleDefaults <- function() {
       color = '#1D60BD',
       lineType = 4,
       lineWidth = 2,
-      hide = FALSE
+      hide = FALSE,
+      bandColor = "#1D60BD",
+      bandOpacity = 0.2
     ),
     # more points
     morePoints = list()

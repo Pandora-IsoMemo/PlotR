@@ -1,5 +1,47 @@
 # PlotR app development version
 
+## Version 23.05.2
+
+### New Features
+- data export contains quantile columns, the value of the selected quantile was added to those column names (#2)
+
+## Version 23.05.1
+
+### New Features
+- option to add bands between prediction uncertainty lines (#1)
+
+## Version 23.05.0
+
+### New Features
+- adds a legend to the all-in-one plot (#3)
+
+## Version 23.03.4
+
+### Updates
+- warning after modeling if the sample size is below 8 (#24)
+
+## Version 23.03.3
+
+### New Features
+- option to load remote models from the github folder `inst/app/predefinedModels` of the respective 
+repository
+- if there is no internet connection remote models are taken from the models that were saved with
+  the last deployed app version
+- option to save only user inputs and data without the model output
+- option to plot data before/without running the model
+  
+### Updates
+- update sidebar widths
+
+### Bug fixes
+- if the name of an uploaded plot already exists the name of the new plot is updated, thus rendering
+of plots is triggered correctly
+
+## Version 23.03.2
+
+### Updates
+- tighten prior for sigma (#24)
+
 ## Version 23.03.1
 
 ### Bug fixes
