@@ -38,7 +38,7 @@ goodnessOfFit <-
         data.frame(plot = x,
                    AIC = round(-2 * sum(log(rowMeans(exp(llog)))) +2*edf,2),
                    BIC= round(-2 * sum(log(rowMeans(exp(llog)))) + edf * log(nTotal),2),
-                   edf = round(edf, 2),
+                   #edf = round(edf, 2),
                    n_obs = nTotal)
       })))
     })
