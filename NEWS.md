@@ -1,5 +1,10 @@
 # PlotR app development version
 
+## Version 23.06.1
+
+### New Features
+- New UI tab with AIC and BIC information on models + plots
+
 ## Version 23.05.2
 
 ### New Features

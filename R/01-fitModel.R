@@ -144,6 +144,8 @@ fitPlotRModelMC <- function(data,
   res$beta <- do.call("rbind", lapply(1:length(ret), function(x) ret[[x]]$beta))
   res$betaSigma <- do.call("rbind", lapply(1:length(ret), function(x) ret[[x]]$betaSigma))
   res$sigma <- do.call("c", lapply(1:length(ret), function(x) ret[[x]]$sigma))
+  res$llog <- do.call("cbind", lapply(1:length(ret), function(x) ret[[x]]$llog))
+  res$edf <- sum(apply(res$llog,1, var))
   return(res)
 }
 
@@ -358,9 +360,9 @@ fitPlotRModel <- function(data,
   usedsamples <- seq(from = burnin, to = iter, by = every)
   if (sdVar){
     seTotal <- range(sqrt(apply(sapply(1:length(usedsamples), function(x)
-      (XX2 %*% betamc[usedsamples[x], ]) * sRe + mRe), 1, var) +
+      (XX %*% betamc[usedsamples[x], ]) * sRe + mRe), 1, var) +
         rowMeans(sapply(1:length(usedsamples), function(x)
-          exp((XX2 %*% betamcSigma[usedsamples[x], ])) / smc[usedsamples[x]] * sRe^2))))
+          exp((XX %*% betamcSigma[usedsamples[x], ])) / smc[usedsamples[x]] * sRe^2))))
     betamcSigma <- betamcSigma[usedsamples, ]
 
   } else {
@@ -368,14 +370,23 @@ fitPlotRModel <- function(data,
     seTotal <- range(sqrt(apply(sapply(1:length(usedsamples), function(x)
       (XX %*% betamc[usedsamples[x], ]) * sRe + mRe), 1, var) + mean(smc)))
   }
+  #log likelihood computation for (W)AIC
+  if (sdVar){
+      llog <- (-0.5 * (YMean - (XX %*% t(betamc[usedsamples, ])))^2 /
+                 (exp((XX %*% t(betamcSigma))) / smc[usedsamples])) -
+        0.5 * log(2*pi) - 0.5 * log(exp((XX %*% t(betamcSigma))) / smc[usedsamples])
+    } else {
+      llog <- (-0.5 * (YMean - (XX %*% t(betamc[usedsamples, ])))^2 / (smc[usedsamples])) - 0.5 * log(2*pi) - 0.5 * log(smc[usedsamples])
+  }
 
   list(beta = betamc[usedsamples, ], betaSigma = betamcSigma,
        sc = s, sigma = smc[usedsamples, ],
        mRe = mRe, sRe = sRe,
+       llog = llog,
        range = list(mean = range(rowMeans(sapply(1:length(usedsamples), function(x)
-         (XX2 %*% betamc[usedsamples[x], ]) * sRe + mRe))),
+         (XX %*% betamc[usedsamples[x], ]) * sRe + mRe))),
          se = range(sqrt(apply(sapply(1:length(usedsamples), function(x)
-           (XX2 %*% betamc[usedsamples[x], ]) * sRe + mRe), 1, var))),
+           (XX %*% betamc[usedsamples[x], ]) * sRe + mRe), 1, var))),
          seTotal = seTotal)
   )
 }
