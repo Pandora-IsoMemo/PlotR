@@ -35,11 +35,19 @@ goodnessOfFit <-
         llog = savedData()[x][[x]]$plotValues$modelData$modelOutput$llog
         nTotal = length(llog[,1])
         edf = savedData()[x][[x]]$plotValues$modelData$modelOutput$edf
-        data.frame(plot = x,
-                   AIC = round(-2 * sum(log(rowMeans(exp(llog)))) +2*edf,2),
-                   BIC= round(-2 * sum(log(rowMeans(exp(llog)))) + edf * log(nTotal),2),
-                   #edf = round(edf, 2),
-                   n_obs = nTotal)
+        if(!is.null(llog)){
+          data.frame(plot = x,
+                     AIC = round(-2 * sum(log(rowMeans(exp(llog)))) +2*edf,2),
+                     BIC= round(-2 * sum(log(rowMeans(exp(llog)))) + edf * log(nTotal),2),
+                     #edf = round(edf, 2),
+                     n_obs = nTotal)
+        } else {
+          data.frame(plot = x,
+                     AIC = NA,
+                     BIC= NA,
+                     #edf = round(edf, 2),
+                     n_obs = NA)
+        }
       })))
     })
 
