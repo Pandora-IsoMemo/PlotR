@@ -370,14 +370,12 @@ fitPlotRModel <- function(data,
     seTotal <- range(sqrt(apply(sapply(1:length(usedsamples), function(x)
       (XX %*% betamc[usedsamples[x], ]) * sRe + mRe), 1, var) + mean(smc)))
   }
-  #log likelihood computation for (W)AIC
-  if (sdVar){
-      llog <- (-0.5 * (YMean - (XX %*% t(betamc[usedsamples, ])))^2 /
-                 (exp((XX %*% t(betamcSigma))) / smc[usedsamples])) -
-        0.5 * log(2*pi) - 0.5 * log(exp((XX %*% t(betamcSigma))) / smc[usedsamples])
-    } else {
-      llog <- (-0.5 * (YMean - (XX %*% t(betamc[usedsamples, ])))^2 / (smc[usedsamples])) - 0.5 * log(2*pi) - 0.5 * log(smc[usedsamples])
-  }
+
+  llog <- getLLog(matrixDiff = YMean - (XX %*% t(betamc[usedsamples, ])),
+                  XX = XX,
+                  betamcSigma = betamcSigma,
+                  smcSmpls = smc[usedsamples],
+                  sdVar = sdVar)
 
   list(beta = betamc[usedsamples, ], betaSigma = betamcSigma,
        sc = s, sigma = smc[usedsamples, ],
@@ -427,4 +425,23 @@ cpostX <- function(XX,
   #   min = xobs - sqrt(sigma.obs),
   #   max = xobs + sqrt(sigma.obs)
   # ))
+}
+
+#' Get LLog
+#'
+#' Log likelihood computation for (W)AIC
+#'
+#' @param matrixDiff (matrix) matrix difference
+#' @param XX (matrix) design matrix
+#' @param betamcSigma (matrix) coefficients of varying standard deviation spline
+#' @param smcSmpls (numeric)  sigmas of MC samples
+#' @param sdVar (logical) TRUE if variable standard deviation
+getLLog <- function(matrixDiff, XX, betamcSigma, smcSmpls, sdVar) {
+  if (sdVar){
+    sigmaMC <- exp((XX %*% t(betamcSigma))) / smcSmpls
+  } else {
+    sigmaMC <- smcSmpls
+  }
+
+  -0.5 * matrixDiff^2 / sigmaMC - 0.5 * log(2*pi) - 0.5 * log(sigmaMC)
 }
