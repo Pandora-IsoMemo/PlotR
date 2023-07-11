@@ -50,6 +50,10 @@ testthat::test_that("function fitPlotRModel", {
   testthat::expect_null(testModelFit$betaSigma)
   testthat::expect_true(typeof(testModelFit$beta) == "double")
   testthat::expect_true(typeof(testModelFit$betaSigma) == "NULL")
+  testthat::expect_length(testModelFit$sigma, 1001)
+  testthat::expect_equal(testModelFit$mRe, 1024.25921) # mean of data
+  testthat::expect_equal(testModelFit$sRe, 814.2463)   # sd of data
+  testthat::expect_length(testModelFit$llog, 27027)
   testthat::expect_lt(max(testModelFit$range$mean), 1530 + 360) # max(mean) + mean(se)
   testthat::expect_gt(max(testModelFit$range$mean), 1530 - 360) # max(mean) - mean(se)
   testthat::expect_lt(min(testModelFit$range$mean), 460 + 360)  # min(mean) + mean(se)
@@ -69,6 +73,10 @@ testthat::test_that("function fitPlotRModel", {
   testthat::expect_true(inherits(testModelFit$betaSigma, "matrix"))
   testthat::expect_true(typeof(testModelFit$beta) == "double")
   testthat::expect_true(typeof(testModelFit$betaSigma) == "double")
+  testthat::expect_length(testModelFit$sigma, 1001)
+  estthat::expect_equal(testModelFit$mRe, 1024.25921) # mean of data
+  testthat::expect_equal(testModelFit$sRe, 814.2463)  # sd of data
+  testthat::expect_length(testModelFit$llog, 27027)
   testthat::expect_lt(max(testModelFit$range$mean), 2570 + 660) # max(mean) + mean(se)
   testthat::expect_gt(max(testModelFit$range$mean), 2579 - 660) # max(mean) - mean(se)
   testthat::expect_lt(min(testModelFit$range$mean), 240 + 550)  # min(mean) + mean(se)
