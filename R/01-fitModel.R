@@ -431,9 +431,9 @@ cpostX <- function(XX,
 #'
 #' Log likelihood computation for (W)AIC
 #'
-#' @param matrixDiff (matrix) matrix differenc
-#' @param XX (matrix) XX
-#' @param betamcSigma (matrix) betamcSigma
+#' @param matrixDiff (matrix) matrix difference
+#' @param XX (matrix) design matrix
+#' @param betamcSigma (matrix) coefficients of varying standard deviation spline
 #' @param smcSmpls (numeric)  sigmas of MC samples
 #' @param sdVar (logical) TRUE if variable standard deviation
 getLLog <- function(matrixDiff, XX, betamcSigma, smcSmpls, sdVar) {

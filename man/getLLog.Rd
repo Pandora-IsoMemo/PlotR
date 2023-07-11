@@ -7,11 +7,11 @@
 getLLog(matrixDiff, XX, betamcSigma, smcSmpls, sdVar)
 }
 \arguments{
-\item{matrixDiff}{(matrix) matrix differenc}
+\item{matrixDiff}{(matrix) matrix difference}
 
-\item{XX}{(matrix) XX}
+\item{XX}{(matrix) design matrix}
 
-\item{betamcSigma}{(matrix) betamcSigma}
+\item{betamcSigma}{(matrix) coefficients of varying standard deviation spline}
 
 \item{smcSmpls}{(numeric)  sigmas of MC samples}
 
