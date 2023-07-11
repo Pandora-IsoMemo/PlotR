@@ -103,3 +103,10 @@ testthat::test_that("function fitPlotRModel", {
 # })
 #
 # fitLoop %>% bind_rows() %>% summary()
+
+testthat::test_that("function getLLog", {
+  testData <- readRDS(file.path(testthat::test_path(), "test-fitPlotRModel_getLLog_testData.rds"))
+
+  testLLog <- do.call(getLLog, c(testData[["testInput"]], list(sdVar = FALSE)))
+  testthat::expect_equal(testLLog, testData[["testOutput"]])
+})
