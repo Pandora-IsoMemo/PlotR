@@ -11,7 +11,7 @@ createGoodnessOfFitTable(x, llog, edf)
 
 \item{llog}{(matrix) llog matrix of a model output}
 
-\item{edf}{(numeric) sum of the row variances of the llog matrix}
+\item{edf}{(numeric) effective degrees of freedom, i.e.: sum of the row variances of the llog matrix}
 }
 \description{
 Create Goodness Of Fit Table

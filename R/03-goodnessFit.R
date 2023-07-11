@@ -50,7 +50,7 @@ goodnessOfFit <-
 #'
 #' @param x (character) name of the model
 #' @param llog (matrix) llog matrix of a model output
-#' @param edf (numeric) sum of the row variances of the llog matrix
+#' @param edf (numeric) effective degrees of freedom, i.e.: sum of the row variances of the llog matrix
 createGoodnessOfFitTable <- function(x, llog, edf) {
   if (is.null(llog)) {
     return(
