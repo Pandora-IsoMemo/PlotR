@@ -360,19 +360,19 @@ fitPlotRModel <- function(data,
   usedsamples <- seq(from = burnin, to = iter, by = every)
   if (sdVar){
     seTotal <- range(sqrt(apply(sapply(1:length(usedsamples), function(x)
-      (XX %*% betamc[usedsamples[x], ]) * sRe + mRe), 1, var) +
+      (XX2 %*% betamc[usedsamples[x], ]) * sRe + mRe), 1, var) +
         rowMeans(sapply(1:length(usedsamples), function(x)
-          exp((XX %*% betamcSigma[usedsamples[x], ])) / smc[usedsamples[x]] * sRe^2))))
+          exp((XX2 %*% betamcSigma[usedsamples[x], ])) / smc[usedsamples[x]] * sRe^2))))
     betamcSigma <- betamcSigma[usedsamples, ]
 
   } else {
     betamcSigma <- NULL
     seTotal <- range(sqrt(apply(sapply(1:length(usedsamples), function(x)
-      (XX %*% betamc[usedsamples[x], ]) * sRe + mRe), 1, var) + mean(smc)))
+      (XX2 %*% betamc[usedsamples[x], ]) * sRe + mRe), 1, var) + mean(smc)))
   }
 
-  llog <- getLLog(matrixDiff = YMean - (XX %*% t(betamc[usedsamples, ])),
-                  XX = XX,
+  llog <- getLLog(matrixDiff = YMean - (XX2 %*% t(betamc[usedsamples, ])),
+                  XX = XX2,
                   betamcSigma = betamcSigma,
                   smcSmpls = smc[usedsamples],
                   sdVar = sdVar)
@@ -382,9 +382,9 @@ fitPlotRModel <- function(data,
        mRe = mRe, sRe = sRe,
        llog = llog,
        range = list(mean = range(rowMeans(sapply(1:length(usedsamples), function(x)
-         (XX %*% betamc[usedsamples[x], ]) * sRe + mRe))),
+         (XX2 %*% betamc[usedsamples[x], ]) * sRe + mRe))),
          se = range(sqrt(apply(sapply(1:length(usedsamples), function(x)
-           (XX %*% betamc[usedsamples[x], ]) * sRe + mRe), 1, var))),
+           (XX2 %*% betamc[usedsamples[x], ]) * sRe + mRe), 1, var))),
          seTotal = seTotal)
   )
 }
