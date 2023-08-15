@@ -1,5 +1,10 @@
 # PlotR app development version
 
+## Version 23.08.0
+
+### Bug Fixes
+- fix the update of the column choices of "Predict Data" in the tab "Multible Predictions" when using uploaded data (#40)
+
 ## Version 23.05.2
 
 ### New Features
