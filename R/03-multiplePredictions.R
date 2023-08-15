@@ -342,7 +342,13 @@ multiplePredictions <-
       checkReq(activeFile(), label = "Please select data from a file.")
       req(activeFile())
 
-      moreXUploaded(getPrepDataPart(activeFile(), getSelection(moreXColumns()), part = "X"))
+      xSelection <- getSelection(moreXColumns())
+
+      preparedData <- activeFile()[, unlist(c(xSelection$colNames))] %>%
+        asNumericWithoutNA() %>%                   # removes NA
+        getPrepDataPart(xSelection, part = "X")    # adds new columns
+
+      moreXUploaded(preparedData)
 
       checkReq(moreXUploaded()$X, label = "Please provide input values.")
       req(moreXUploaded()$X)
