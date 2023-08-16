@@ -195,6 +195,9 @@ fitPlotRModel <- function(data,
 
   lam <- 1E-5
   beta <- rep(0, ncol(XX))
+
+  # Keep current XX in XX2. XX2: matrix on the original X-values
+  # XX will be changed X-values when there is uncertainty
   XX2 <- XX
 
   if (sdVar){
@@ -359,6 +362,7 @@ fitPlotRModel <- function(data,
   #Vektor der tatsaechlich benutzten Beobachtungen
   usedsamples <- seq(from = burnin, to = iter, by = every)
   if (sdVar){
+    # XX2: matrix on the original X-values
     seTotal <- range(sqrt(apply(sapply(1:length(usedsamples), function(x)
       (XX2 %*% betamc[usedsamples[x], ]) * sRe + mRe), 1, var) +
         rowMeans(sapply(1:length(usedsamples), function(x)
