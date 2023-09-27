@@ -36,7 +36,7 @@ uploadFiles <- function(input, output, session) {
     customWarningChecks = list(reactive(checkWarningEmptyValues)),
     customErrorChecks = list(reactive(checkErrorNoNumericColumns)),
     ignoreWarnings = TRUE,
-    defaultSource = "file"
+    defaultSource = appConfig$defaultSourceData
   )
 
   observe({
