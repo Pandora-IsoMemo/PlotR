@@ -48,9 +48,6 @@ downUploads <-
            loadedFiles) {
     activePlotValues <- getPlotValuesDefaults()
     activePlotStyle <- getPlotStyleDefaults()
-    #morePoints <- reactiveVal(list())
-
-    #oneMorePoint <- callModule(addPoints, id = "morePoints")
 
     observe({
       req(names(savedData()))
@@ -74,15 +71,6 @@ downUploads <-
         activePlotStyle[[i]] <-
           savedData()[[input$activePlot]]$plotStyle[[i]]
       }
-
-      #morePoints(activePlotStyle$morePoints)
-
-      # updateSelectInput(
-      #   session,
-      #   "activePoint",
-      #   choices = names(morePoints()),
-      #   selected = names(morePoints())[length(morePoints())]
-      # )
     })
 
     # render plot ####
@@ -104,7 +92,6 @@ downUploads <-
     })
 
     # down/upload saved plot ####
-
     observe({
       updateSelectInput(session, "selectedModels", choices = names(savedData()),
                         selected = names(savedData())[length(savedData())])
