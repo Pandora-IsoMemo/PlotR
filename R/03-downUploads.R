@@ -40,12 +40,14 @@ downUploadsUI <- function(id, title) {
 #' @rdname shinyModule
 #' @param savedData (reactive) list of saved data
 #' @param loadedFiles (reactive) list of uploaded files
+#' @param config (list) list with configuration parameters
 downUploads <-
   function(input,
            output,
            session,
            savedData,
-           loadedFiles) {
+           loadedFiles,
+           config) {
     activePlotValues <- getPlotValuesDefaults()
     activePlotStyle <- getPlotStyleDefaults()
 
@@ -104,18 +106,18 @@ downUploads <-
                         inputs = reactiveValues(),
                         model = reactive(savedData()[input$selectedModels] %>%
                                            extractModelOutputs()),
-                        rPackageName = appConfig$rPackageName,
-                        fileExtension = appConfig$fileExtension,
+                        rPackageName = config$rPackageName,
+                        fileExtension = config$fileExtension,
                         modelNotes = uploadedNotes,
                         triggerUpdate = reactive(TRUE))
 
     uploadedValues <- importDataServer("modelUpload",
                                        title = "Import Model",
-                                       defaultSource = appConfig$defaultSourceModel,
+                                       defaultSource = config$defaultSourceModel,
                                        importType = "model",
-                                       rPackageName = appConfig$rPackageName,
+                                       rPackageName = config$rPackageName,
                                        ignoreWarnings = TRUE,
-                                       fileExtension = appConfig$fileExtension)
+                                       fileExtension = config$fileExtension)
 
 
     observe({

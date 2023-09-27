@@ -29,6 +29,7 @@ Imports:
   shinyjs,
   shinythemes,
   tibble,
+  yaml,
   zip
 License: GPL (>= 3)
 Encoding: UTF-8
