@@ -8,7 +8,7 @@
 
 ## Bug Fixes
 
-- Fix test in test-downAndUploadModel.R to 24
+- Fix test in test-downAndUploadModel.R: remove year
 # PlotR 23.08.0
 
 ## Bug Fixes
