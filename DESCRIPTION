@@ -12,7 +12,7 @@ Description: Plot things.
 Depends: R (>= 3.5.0)
 Imports:
   colourpicker,
-  DataTools (>= 23.12.2),
+  DataTools (>= 24.04.2),
   dplyr,
   DT,
   futile.logger,
