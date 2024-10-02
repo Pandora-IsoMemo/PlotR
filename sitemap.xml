@@ -1,105 +1,43 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://pandora-isomemo.github.io/PlotR/404.html</loc>
-  </url>
-  <url>
-    <loc>https://pandora-isomemo.github.io/PlotR/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://pandora-isomemo.github.io/PlotR/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://pandora-isomemo.github.io/PlotR/index.html</loc>
-  </url>
-  <url>
-    <loc>https://pandora-isomemo.github.io/PlotR/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://pandora-isomemo.github.io/PlotR/reference/addLegendServer.html</loc>
-  </url>
-  <url>
-    <loc>https://pandora-isomemo.github.io/PlotR/reference/addLegendUI.html</loc>
-  </url>
-  <url>
-    <loc>https://pandora-isomemo.github.io/PlotR/reference/addPoints.html</loc>
-  </url>
-  <url>
-    <loc>https://pandora-isomemo.github.io/PlotR/reference/checkReq.html</loc>
-  </url>
-  <url>
-    <loc>https://pandora-isomemo.github.io/PlotR/reference/dataSettings.html</loc>
-  </url>
-  <url>
-    <loc>https://pandora-isomemo.github.io/PlotR/reference/deriveExplanatory.html</loc>
-  </url>
-  <url>
-    <loc>https://pandora-isomemo.github.io/PlotR/reference/deriveSingleExplanatory.html</loc>
-  </url>
-  <url>
-    <loc>https://pandora-isomemo.github.io/PlotR/reference/exportCSV.html</loc>
-  </url>
-  <url>
-    <loc>https://pandora-isomemo.github.io/PlotR/reference/exportFilename.html</loc>
-  </url>
-  <url>
-    <loc>https://pandora-isomemo.github.io/PlotR/reference/exportJSON.html</loc>
-  </url>
-  <url>
-    <loc>https://pandora-isomemo.github.io/PlotR/reference/exportXLSX.html</loc>
-  </url>
-  <url>
-    <loc>https://pandora-isomemo.github.io/PlotR/reference/filterCommonXRange.html</loc>
-  </url>
-  <url>
-    <loc>https://pandora-isomemo.github.io/PlotR/reference/fitModel.html</loc>
-  </url>
-  <url>
-    <loc>https://pandora-isomemo.github.io/PlotR/reference/getCommonPredictions.html</loc>
-  </url>
-  <url>
-    <loc>https://pandora-isomemo.github.io/PlotR/reference/getCommonX.html</loc>
-  </url>
-  <url>
-    <loc>https://pandora-isomemo.github.io/PlotR/reference/getRelevantOverlap.html</loc>
-  </url>
-  <url>
-    <loc>https://pandora-isomemo.github.io/PlotR/reference/hex_with_opacity.html</loc>
-  </url>
-  <url>
-    <loc>https://pandora-isomemo.github.io/PlotR/reference/incIndexOfFile.html</loc>
-  </url>
-  <url>
-    <loc>https://pandora-isomemo.github.io/PlotR/reference/incIndexOfName.html</loc>
-  </url>
-  <url>
-    <loc>https://pandora-isomemo.github.io/PlotR/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://pandora-isomemo.github.io/PlotR/reference/modelSettings.html</loc>
-  </url>
-  <url>
-    <loc>https://pandora-isomemo.github.io/PlotR/reference/predictAdditionalData.html</loc>
-  </url>
-  <url>
-    <loc>https://pandora-isomemo.github.io/PlotR/reference/rdensity.html</loc>
-  </url>
-  <url>
-    <loc>https://pandora-isomemo.github.io/PlotR/reference/removeModelOutputs.html</loc>
-  </url>
-  <url>
-    <loc>https://pandora-isomemo.github.io/PlotR/reference/selectDataWrapper.html</loc>
-  </url>
-  <url>
-    <loc>https://pandora-isomemo.github.io/PlotR/reference/shinyModule.html</loc>
-  </url>
-  <url>
-    <loc>https://pandora-isomemo.github.io/PlotR/reference/sliderAndNumericRangeServer.html</loc>
-  </url>
-  <url>
-    <loc>https://pandora-isomemo.github.io/PlotR/reference/sliderAndNumericRangeUI.html</loc>
-  </url>
-  <url>
-    <loc>https://pandora-isomemo.github.io/PlotR/reference/startApplication.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://pandora-isomemo.github.io/PlotR/404.html</loc></url>
+<url><loc>https://pandora-isomemo.github.io/PlotR/LICENSE.html</loc></url>
+<url><loc>https://pandora-isomemo.github.io/PlotR/authors.html</loc></url>
+<url><loc>https://pandora-isomemo.github.io/PlotR/index.html</loc></url>
+<url><loc>https://pandora-isomemo.github.io/PlotR/news/index.html</loc></url>
+<url><loc>https://pandora-isomemo.github.io/PlotR/reference/addLegendServer.html</loc></url>
+<url><loc>https://pandora-isomemo.github.io/PlotR/reference/addLegendUI.html</loc></url>
+<url><loc>https://pandora-isomemo.github.io/PlotR/reference/addPoints.html</loc></url>
+<url><loc>https://pandora-isomemo.github.io/PlotR/reference/checkReq.html</loc></url>
+<url><loc>https://pandora-isomemo.github.io/PlotR/reference/combineDataAndModelOutputs.html</loc></url>
+<url><loc>https://pandora-isomemo.github.io/PlotR/reference/config.html</loc></url>
+<url><loc>https://pandora-isomemo.github.io/PlotR/reference/createGoodnessOfFitTable.html</loc></url>
+<url><loc>https://pandora-isomemo.github.io/PlotR/reference/dataSettings.html</loc></url>
+<url><loc>https://pandora-isomemo.github.io/PlotR/reference/deriveExplanatory.html</loc></url>
+<url><loc>https://pandora-isomemo.github.io/PlotR/reference/deriveSingleExplanatory.html</loc></url>
+<url><loc>https://pandora-isomemo.github.io/PlotR/reference/exportCSV.html</loc></url>
+<url><loc>https://pandora-isomemo.github.io/PlotR/reference/exportFilename.html</loc></url>
+<url><loc>https://pandora-isomemo.github.io/PlotR/reference/exportJSON.html</loc></url>
+<url><loc>https://pandora-isomemo.github.io/PlotR/reference/exportXLSX.html</loc></url>
+<url><loc>https://pandora-isomemo.github.io/PlotR/reference/extractModelOutputs.html</loc></url>
+<url><loc>https://pandora-isomemo.github.io/PlotR/reference/filterCommonXRange.html</loc></url>
+<url><loc>https://pandora-isomemo.github.io/PlotR/reference/fitModel.html</loc></url>
+<url><loc>https://pandora-isomemo.github.io/PlotR/reference/getCommonPredictions.html</loc></url>
+<url><loc>https://pandora-isomemo.github.io/PlotR/reference/getCommonX.html</loc></url>
+<url><loc>https://pandora-isomemo.github.io/PlotR/reference/getHelp.html</loc></url>
+<url><loc>https://pandora-isomemo.github.io/PlotR/reference/getLLog.html</loc></url>
+<url><loc>https://pandora-isomemo.github.io/PlotR/reference/getRelevantOverlap.html</loc></url>
+<url><loc>https://pandora-isomemo.github.io/PlotR/reference/hex_with_opacity.html</loc></url>
+<url><loc>https://pandora-isomemo.github.io/PlotR/reference/incIndexOfFile.html</loc></url>
+<url><loc>https://pandora-isomemo.github.io/PlotR/reference/incIndexOfName.html</loc></url>
+<url><loc>https://pandora-isomemo.github.io/PlotR/reference/index.html</loc></url>
+<url><loc>https://pandora-isomemo.github.io/PlotR/reference/modelSettings.html</loc></url>
+<url><loc>https://pandora-isomemo.github.io/PlotR/reference/predictAdditionalData.html</loc></url>
+<url><loc>https://pandora-isomemo.github.io/PlotR/reference/rdensity.html</loc></url>
+<url><loc>https://pandora-isomemo.github.io/PlotR/reference/removeModelOutputs.html</loc></url>
+<url><loc>https://pandora-isomemo.github.io/PlotR/reference/selectDataWrapper.html</loc></url>
+<url><loc>https://pandora-isomemo.github.io/PlotR/reference/shinyModule.html</loc></url>
+<url><loc>https://pandora-isomemo.github.io/PlotR/reference/sliderAndNumericRangeServer.html</loc></url>
+<url><loc>https://pandora-isomemo.github.io/PlotR/reference/sliderAndNumericRangeUI.html</loc></url>
+<url><loc>https://pandora-isomemo.github.io/PlotR/reference/startApplication.html</loc></url>
 </urlset>
+
