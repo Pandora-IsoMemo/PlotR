@@ -7,9 +7,16 @@ function (input, output, session) {
   callModule(postProcessing, "post", savedData = savedPlots)
   callModule(stylePlot, "style", savedData = savedPlots)
   callModule(addMorePoints, "addPoints", savedData = savedPlots)
-  callModule(downUploads, "downUpload", savedData = savedPlots,
-             loadedFiles = loadedFiles)
+  callModule(downUploads, "downUpload", savedData = savedPlots, loadedFiles = loadedFiles)
   callModule(multiplePlots, "multiple", savedData = savedPlots)
   callModule(multiplePredictions, "multiplePreds", savedData = savedPlots,
              loadedFiles = loadedFiles)
+  callModule(goodnessOfFit, "goodness", savedData = savedPlots)
+
+  observeEvent(input$getHelp, {
+    showModal(modalDialog(
+      easyClose = TRUE,
+      getHelp(input$tab)
+    ))
+  })
 }

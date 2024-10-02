@@ -7,8 +7,25 @@
 - Add Pandora drat Repo to .Rprofile
 
 ## Bug Fixes
-
 - Fix test in test-downAndUploadModel.R: remove year
+
+# PlotR 23.12.0
+
+## New Features
+- _Import of models_: display of "About" information that is associated to a selected Pandora 
+  Repository
+
+# PlotR 23.09.0
+
+## New Features
+- _Import of models_:
+  - option to import models from Pandora platform
+  
+# PlotR 23.08.1
+
+## New Features
+- New UI tab with AIC and BIC information on models + plots
+
 # PlotR 23.08.0
 
 ## Bug Fixes
