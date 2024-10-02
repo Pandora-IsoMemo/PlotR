@@ -6,6 +6,9 @@
 - rm rgpt3 from remotes package
 - Add Pandora drat Repo to .Rprofile
 
+## Bug Fixes
+- Fix test in test-downAndUploadModel.R: remove year
+
 # PlotR 23.12.0
 
 ## New Features
@@ -22,9 +25,6 @@
 
 ## New Features
 - New UI tab with AIC and BIC information on models + plots
-
-## Bug Fixes
-- Fix test in test-downAndUploadModel.R: remove year
 
 # PlotR 23.08.0
 
