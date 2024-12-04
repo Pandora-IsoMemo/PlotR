@@ -1,6 +1,6 @@
 Package: PlotR
 Title: Plot things
-Version: 24.04.0.1
+Version: 24.12.0
 Authors@R: c(
     person("Marcus", "Gross", email = "marcus.gross@inwt-statistics.de", role = c("aut", "cre")),
     person("Ricardo", "Fernandes", email = "ldv1452@gmail.com", role = c("aut")),
@@ -12,7 +12,7 @@ Description: Plot things.
 Depends: R (>= 3.5.0)
 Imports:
   colourpicker,
-  DataTools (>= 24.04.2),
+  DataTools (>= 24.12.0),
   dplyr,
   DT,
   futile.logger,
