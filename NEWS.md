@@ -1,3 +1,9 @@
+#  PlotR 24.12.0
+
+## Bug Fixes
+- require most recent version of `DataTools` which contains a fix for missing filenames of imported
+  files (#47)
+
 #  PlotR 24.04.0
 
 ## New Features
