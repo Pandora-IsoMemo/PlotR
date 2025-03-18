@@ -229,7 +229,7 @@ postProcessing <- function(input, output, session, savedData) {
       postProcessing = TRUE,
       ppValues = ppValues
     ) %>%
-      tryCatchWithWarningsAndErrors(errorTitle = "Prediction failed", alertStyle = "shinyalert")
+      shinyTryCatch(errorTitle = "Prediction failed", alertStyle = "shinyalert")
 
     req(!is.null(predictedData))
     postPlotValues$predictedData <- predictedData

@@ -12,11 +12,4 @@ function (input, output, session) {
   callModule(multiplePredictions, "multiplePreds", savedData = savedPlots,
              loadedFiles = loadedFiles)
   callModule(goodnessOfFit, "goodness", savedData = savedPlots)
-
-  observeEvent(input$getHelp, {
-    showModal(modalDialog(
-      easyClose = TRUE,
-      getHelp(input$tab)
-    ))
-  })
 }
