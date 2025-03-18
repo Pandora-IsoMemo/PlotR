@@ -1,6 +1,6 @@
 Package: PlotR
 Title: Plot things
-Version: 24.12.0
+Version: 24.12.0.1
 Authors@R: c(
     person("Marcus", "Gross", email = "marcus.gross@inwt-statistics.de", role = c("aut", "cre")),
     person("Ricardo", "Fernandes", email = "ldv1452@gmail.com", role = c("aut")),
@@ -26,6 +26,7 @@ Imports:
   shinyalert,
   shinyjs,
   shinythemes,
+  shinyTools (>= 25.02.0.2),
   tibble,
   yaml
 License: GPL (>= 3)
@@ -34,5 +35,5 @@ LazyData: true
 Suggests:
   lintr (>= 1.0.2),
   testthat
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2
 URL: https://pandora-isomemo.github.io/PlotR/

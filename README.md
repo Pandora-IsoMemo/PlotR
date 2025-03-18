@@ -8,8 +8,11 @@
 - MAIN version: https://isomemoapp.com/app/plotr
 - BETA version: https://isomemoapp.com/app/plotr-beta
 
-### Help and installation instructions:
-- https://github.com/Pandora-IsoMemo/plotr/wiki
+### Documenation
+- https://pandora-isomemo.github.io/PlotR/
+
+### Installation instructions
+- https://pandora-isomemo.github.io/docs/apps.html#plotr
 
 ### Release notes:
 - see `NEWS.md`
