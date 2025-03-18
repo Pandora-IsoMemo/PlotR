@@ -35,7 +35,7 @@ fitModel <- function(plotValues,
   plotValues$predictedData <- predictData(modelData = plotValues$modelData$modelOutput,
                                prepData = prepData,
                                smoothConst = plotValues$modelParameters$smoothConst) %>%
-    tryCatchWithWarningsAndErrors(errorTitle = "Prediction failed", alertStyle = "shinyalert")
+    shinyTryCatch(errorTitle = "Prediction failed", alertStyle = "shinyalert")
 
   req(!is.null(plotValues$predictedData))
   plotValues$defaultXRange <- getRange(
@@ -64,9 +64,9 @@ getModelFit <- function(data,
                     sdVar = modelParameters$sdVar,
                     progressMessage = "Calculating Model"
     ) %>%
-    tryCatchWithWarningsAndErrors(errorTitle = "Modeling failed",
-                                  warningTitle = "Warning",
-                                  alertStyle = "shinyalert")
+    shinyTryCatch(errorTitle = "Modeling failed",
+                  warningTitle = "Warning",
+                  alertStyle = "shinyalert")
 
   if (is.null(modelOutput)) {
     data$isModelOutlier <- FALSE
@@ -79,7 +79,7 @@ getModelFit <- function(data,
     predictedData <- predictData(modelData = modelOutput,
                                  prepData = prepData,
                                  smoothConst = modelParameters$smoothConst) %>%
-      tryCatchWithWarningsAndErrors(errorTitle = "Prediction failed", alertStyle = "shinyalert")
+      shinyTryCatch(errorTitle = "Prediction failed", alertStyle = "shinyalert")
 
     req(!is.null(predictedData))
     data <- findModelOutlier(data = data,
@@ -101,9 +101,9 @@ getModelFit <- function(data,
         sdVar = modelParameters$sdVar,
         progressMessage = "Removing model outliers"
       ) %>%
-      tryCatchWithWarningsAndErrors(errorTitle = "Modeling failed",
-                                    warningTitle = "Warning",
-                                    alertStyle = "shinyalert")
+      shinyTryCatch(errorTitle = "Modeling failed",
+                    warningTitle = "Warning",
+                    alertStyle = "shinyalert")
 
     list(data = data,
          modelOutput = modelOutput

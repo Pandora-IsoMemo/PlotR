@@ -1,7 +1,7 @@
 #' @import shiny
 #' @importFrom colourpicker colourInput updateColourInput
 #' @importFrom DataTools checkErrorNoNumericColumns checkWarningEmptyValues downloadModelUI
-#'  downloadModelServer importDataUI importDataServer tryCatchWithWarningsAndErrors
+#'  downloadModelServer importDataUI importDataServer importOptions importServer importUI
 #' @importFrom dplyr bind_cols bind_rows filter mutate
 #' @importFrom DT DTOutput renderDT
 #' @importFrom graphics arrows axis box lines mtext par plot points rect text legend polygon
@@ -13,6 +13,7 @@
 #' @importFrom rlang .data
 #' @importFrom shinyalert shinyalert
 #' @importFrom shinyjs useShinyjs
+#' @importFrom shinyTools headerButtonsUI shinyTryCatch
 #' @importFrom stats cor density dunif na.omit pnorm rnorm rgamma runif sd setNames var median qnorm
 #' @importFrom tibble tribble
 #' @importFrom utils write.table

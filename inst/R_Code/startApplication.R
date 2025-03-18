@@ -8,6 +8,4 @@ library("methods")
 
 sessionInfo()
 
-# futile.logger::flog.threshold(futile.logger::DEBUG)
-
 startApplication(port = 3838)

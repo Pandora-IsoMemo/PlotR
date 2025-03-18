@@ -17,7 +17,7 @@ downUploadsUI <- function(id, title) {
                ),
                tags$hr(),
                # Export saved models ####
-               importDataUI(ns("modelUpload"), label = "Import Plot"),
+               importUI(ns("modelUpload"), label = "Import Plot"),
                tags$hr(),
                selectInput(ns("selectedModels"), label = "Download plot object(s)",
                            choices = c("Save or upload plots ..." = ""),
@@ -109,15 +109,16 @@ downUploads <-
                         modelNotes = uploadedNotes,
                         triggerUpdate = reactive(TRUE))
 
-    uploadedValues <- importDataServer("modelUpload",
-                                       title = "Import Model",
-                                       importType = "model",
-                                       ckanFileTypes = config()[["ckanModelTypes"]],
-                                       ignoreWarnings = TRUE,
-                                       defaultSource = config()[["defaultSourceModel"]],
-                                       mainFolder = config()[["mainFolder"]],
-                                       fileExtension = config()[["fileExtension"]],
-                                       rPackageName = config()[["rPackageName"]])
+    uploadedValues <- importServer(
+      "modelUpload",
+      title = "Import Model",
+      importType = "model",
+      ckanFileTypes = config()[["ckanModelTypes"]],
+      ignoreWarnings = TRUE,
+      defaultSource = config()[["defaultSourceModel"]],
+      fileExtension = config()[["fileExtension"]],
+      options = importOptions(rPackageName = config()[["rPackageName"]])
+    )
 
 
     observe({

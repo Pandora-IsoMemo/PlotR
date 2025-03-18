@@ -38,7 +38,7 @@ uploadFiles <- function(input, output, session) {
     ignoreWarnings = TRUE,
     defaultSource = config()[["defaultSourceData"]],
     ckanFileTypes = config()[["ckanFileTypes"]],
-    rPackageName = config()[["rPackageName"]]
+    options = importOptions(rPackageName = config()[["rPackageName"]])
   )
 
   observe({

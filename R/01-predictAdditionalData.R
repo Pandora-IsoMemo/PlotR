@@ -173,13 +173,13 @@ getCommonPredictions <- function(activeDataList, xRange, isTest = FALSE) {
             prediction <- predictAdditionalData(moreMean = xVar,
                                                 moreSD = 0,
                                                 plotValues = x$plotValues) %>%
-              tryCatchWithWarningsAndErrors(errorTitle = paste("Prediction failed for", x$plotName),
-                                            alertStyle = "shinyalert")
+              shinyTryCatch(errorTitle = paste("Prediction failed for", x$plotName),
+                            alertStyle = "shinyalert")
             if (is.null(prediction)) return(NULL)
             prediction[, "Estimation"]}
           )) %>%
           bind_cols() %>%
-          tryCatchWithWarningsAndErrors(errorTitle = "Common Prediction failed", alertStyle = "shinyalert")
+          shinyTryCatch(errorTitle = "Common Prediction failed", alertStyle = "shinyalert")
       })
   }
 }

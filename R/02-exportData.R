@@ -115,7 +115,7 @@ calcExportData <- function(xVar, quantile, data, xSelection, ySelection, modelOu
     yName = ySelection$colNames$colName1,
     quantile = quantile
   ) %>%
-    tryCatchWithWarningsAndErrors(errorTitle = "Prediction failed", alertStyle = "shinyalert")
+    shinyTryCatch(errorTitle = "Prediction failed", alertStyle = "shinyalert")
 
   if (renameQColumns) {
     # rename quantile columns
