@@ -5,6 +5,7 @@ RUN Rscript -e "remotes::install_github('r-lib/httr2@v1.2.3')" \
 
 ADD . .
 
-RUN installPackage
+RUN echo "options(repos = c(getOption('repos'), PANDORA = 'https://Pandora-IsoMemo.github.io/drat/'))" >> /usr/local/lib/R/etc/Rprofile.site \
+&& installPackage
 
 CMD ["Rscript", "inst/R_Code/startApplication.R"]
