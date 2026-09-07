@@ -2,7 +2,8 @@
 % Please edit documentation in R/00-NAMESPACE.R, R/02-addMoreData.R,
 %   R/02-saveAndDeletePlot.R, R/03-addMorePoints.R, R/03-downUploads.R,
 %   R/03-goodnessFit.R, R/03-multiplePlots.R, R/03-multiplePredictions.R,
-%   R/03-postProcessing.R, R/03-runModel.R, R/03-stylePlot.R, R/03-uploadFiles.R
+%   R/03-postProcessing.R, R/03-runModel.R, R/03-stylePlot.R,
+%   R/03-uploadFiles.R
 \name{shinyModule}
 \alias{shinyModule}
 \alias{addMoreDataUI}
