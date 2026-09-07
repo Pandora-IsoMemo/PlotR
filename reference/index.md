@@ -1,0 +1,96 @@
+# Package index
+
+## All functions
+
+- [`addLegendServer()`](https://pandora-isomemo.github.io/PlotR/reference/addLegendServer.md)
+  : Add a legend to an existing plot
+- [`addLegendUI()`](https://pandora-isomemo.github.io/PlotR/reference/addLegendUI.md)
+  : selectInput to specify legend position
+- [`addPointsUI()`](https://pandora-isomemo.github.io/PlotR/reference/addPoints.md)
+  [`addPoints()`](https://pandora-isomemo.github.io/PlotR/reference/addPoints.md)
+  : Add points module
+- [`checkReq()`](https://pandora-isomemo.github.io/PlotR/reference/checkReq.md)
+  : Pop up a Warning if Req is missing.
+- [`combineDataAndModelOutputs()`](https://pandora-isomemo.github.io/PlotR/reference/combineDataAndModelOutputs.md)
+  : Combine Data and Model Outputs
+- [`config()`](https://pandora-isomemo.github.io/PlotR/reference/config.md)
+  : Config
+- [`createGoodnessOfFitTable()`](https://pandora-isomemo.github.io/PlotR/reference/createGoodnessOfFitTable.md)
+  : Create Goodness Of Fit Table
+- [`dataSettingsUI()`](https://pandora-isomemo.github.io/PlotR/reference/dataSettings.md)
+  [`dataSettings()`](https://pandora-isomemo.github.io/PlotR/reference/dataSettings.md)
+  [`modelSettingsUI()`](https://pandora-isomemo.github.io/PlotR/reference/dataSettings.md)
+  : Data settings module
+- [`deriveExplanatory()`](https://pandora-isomemo.github.io/PlotR/reference/deriveExplanatory.md)
+  : Derive Explanatory for More Y Input
+- [`deriveSingleExplanatory()`](https://pandora-isomemo.github.io/PlotR/reference/deriveSingleExplanatory.md)
+  : Derive Explanatory from Densities of the Estimation Sample
+- [`exportCSV()`](https://pandora-isomemo.github.io/PlotR/reference/exportCSV.md)
+  : Export to csv
+- [`exportFilename()`](https://pandora-isomemo.github.io/PlotR/reference/exportFilename.md)
+  : Filename of Export
+- [`exportJSON()`](https://pandora-isomemo.github.io/PlotR/reference/exportJSON.md)
+  : Export to json
+- [`exportXLSX()`](https://pandora-isomemo.github.io/PlotR/reference/exportXLSX.md)
+  : Export to xlsx
+- [`extractModelOutputs()`](https://pandora-isomemo.github.io/PlotR/reference/extractModelOutputs.md)
+  : Extract Model Outputs
+- [`filterCommonXRange()`](https://pandora-isomemo.github.io/PlotR/reference/filterCommonXRange.md)
+  : Filter or restrict the common xRange
+- [`fitModel()`](https://pandora-isomemo.github.io/PlotR/reference/fitModel.md)
+  : Get plotValues
+- [`getCommonPredictions()`](https://pandora-isomemo.github.io/PlotR/reference/getCommonPredictions.md)
+  : Predictions for Selected Models for a Common X Range
+- [`getCommonX()`](https://pandora-isomemo.github.io/PlotR/reference/getCommonX.md)
+  : Predictions for Selected Models for a Common X Range
+- [`getLLog()`](https://pandora-isomemo.github.io/PlotR/reference/getLLog.md)
+  : Get LLog
+- [`getRelevantOverlap()`](https://pandora-isomemo.github.io/PlotR/reference/getRelevantOverlap.md)
+  : Get Relevant Overlap
+- [`hex_with_opacity()`](https://pandora-isomemo.github.io/PlotR/reference/hex_with_opacity.md)
+  : Convert hex to hex with opacity
+- [`incIndexOfFile()`](https://pandora-isomemo.github.io/PlotR/reference/incIndexOfFile.md)
+  : Inc Index Of File
+- [`incIndexOfName()`](https://pandora-isomemo.github.io/PlotR/reference/incIndexOfName.md)
+  : Inc Index Of Name
+- [`modelSettings()`](https://pandora-isomemo.github.io/PlotR/reference/modelSettings.md)
+  : Server function for model settings
+- [`predictAdditionalData()`](https://pandora-isomemo.github.io/PlotR/reference/predictAdditionalData.md)
+  : Predict Estimations for More X Input
+- [`rdensity()`](https://pandora-isomemo.github.io/PlotR/reference/rdensity.md)
+  : Generate n random numbers from density() object
+- [`removeModelOutputs()`](https://pandora-isomemo.github.io/PlotR/reference/removeModelOutputs.md)
+  : Remove Model Outputs
+- [`selectDataWrapper()`](https://pandora-isomemo.github.io/PlotR/reference/selectDataWrapper.md)
+  : Select Data Wrapper
+- [`addMoreDataUI()`](https://pandora-isomemo.github.io/PlotR/reference/shinyModule.md)
+  [`addMoreData()`](https://pandora-isomemo.github.io/PlotR/reference/shinyModule.md)
+  [`savePlotUI()`](https://pandora-isomemo.github.io/PlotR/reference/shinyModule.md)
+  [`savePlot()`](https://pandora-isomemo.github.io/PlotR/reference/shinyModule.md)
+  [`deletePlotUI()`](https://pandora-isomemo.github.io/PlotR/reference/shinyModule.md)
+  [`deletePlot()`](https://pandora-isomemo.github.io/PlotR/reference/shinyModule.md)
+  [`addMorePointsUI()`](https://pandora-isomemo.github.io/PlotR/reference/shinyModule.md)
+  [`addMorePoints()`](https://pandora-isomemo.github.io/PlotR/reference/shinyModule.md)
+  [`downUploadsUI()`](https://pandora-isomemo.github.io/PlotR/reference/shinyModule.md)
+  [`downUploads()`](https://pandora-isomemo.github.io/PlotR/reference/shinyModule.md)
+  [`goodnessOfFitUI()`](https://pandora-isomemo.github.io/PlotR/reference/shinyModule.md)
+  [`goodnessOfFit()`](https://pandora-isomemo.github.io/PlotR/reference/shinyModule.md)
+  [`multiplePlotsUI()`](https://pandora-isomemo.github.io/PlotR/reference/shinyModule.md)
+  [`multiplePlots()`](https://pandora-isomemo.github.io/PlotR/reference/shinyModule.md)
+  [`multiplePredictionsUI()`](https://pandora-isomemo.github.io/PlotR/reference/shinyModule.md)
+  [`multiplePredictions()`](https://pandora-isomemo.github.io/PlotR/reference/shinyModule.md)
+  [`postProcessingUI()`](https://pandora-isomemo.github.io/PlotR/reference/shinyModule.md)
+  [`postProcessing()`](https://pandora-isomemo.github.io/PlotR/reference/shinyModule.md)
+  [`runModelUI()`](https://pandora-isomemo.github.io/PlotR/reference/shinyModule.md)
+  [`runModel()`](https://pandora-isomemo.github.io/PlotR/reference/shinyModule.md)
+  [`stylePlotUI()`](https://pandora-isomemo.github.io/PlotR/reference/shinyModule.md)
+  [`stylePlot()`](https://pandora-isomemo.github.io/PlotR/reference/shinyModule.md)
+  [`uploadFilesUI()`](https://pandora-isomemo.github.io/PlotR/reference/shinyModule.md)
+  [`uploadFiles()`](https://pandora-isomemo.github.io/PlotR/reference/shinyModule.md)
+  : Server and UI Functions for Shiny Module
+- [`sliderAndNumericRangeServer()`](https://pandora-isomemo.github.io/PlotR/reference/sliderAndNumericRangeServer.md)
+  : Slider And Input Server
+- [`sliderAndNumericRangeUI()`](https://pandora-isomemo.github.io/PlotR/reference/sliderAndNumericRangeUI.md)
+  : Slider And Input UI
+- [`startApplication()`](https://pandora-isomemo.github.io/PlotR/reference/startApplication.md)
+  : Start Application
