@@ -1,3 +1,10 @@
+# PlotR 26.09.0
+
+## Updates
+- Updated base image version and added additional package installations.
+- Increased the required DataTools version to the most recent version.
+- Expanded and organized .Rbuildignore, .gitignore, and .dockerignore entries to reduce accidental inclusion of local/CI/build artifacts.
+
 # PlotR 25.03.0
 
 ## Updates
