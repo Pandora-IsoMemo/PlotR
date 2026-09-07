@@ -1,6 +1,6 @@
 Package: PlotR
 Title: Plot things
-Version: 25.03.0.1
+Version: 26.09.0
 Authors@R: c(
     person("Marcus", "Gross", email = "marcus.gross@inwt-statistics.de", role = c("aut", "cre")),
     person("Ricardo", "Fernandes", email = "ldv1452@gmail.com", role = c("aut")),
@@ -12,7 +12,7 @@ Description: Plot things.
 Depends: R (>= 3.5.0)
 Imports:
   colourpicker,
-  DataTools (>= 24.12.0),
+  DataTools (>= 26.08.2),
   dplyr,
   DT,
   futile.logger,
@@ -26,7 +26,7 @@ Imports:
   shinyalert,
   shinyjs,
   shinythemes,
-  shinyTools (>= 25.02.0.2),
+  shinyTools (>= 26.05.0),
   tibble,
   yaml
 License: GPL (>= 3)
@@ -35,5 +35,5 @@ LazyData: true
 Suggests:
   lintr (>= 1.0.2),
   testthat
-RoxygenNote: 7.2.3
 URL: https://pandora-isomemo.github.io/PlotR/
+Config/roxygen2/version: 8.0.0
