@@ -42,6 +42,11 @@ When testing with a local docker container, please make sure to rebuild the dock
 ```bash
 docker build -t plotr-app:latest .
 ```
+or for a full rebuild without cache:
+
+```bash
+docker build --no-cache -t resources-app:latest .
+```
 
 After that, start the container as usual via:
 
@@ -50,3 +55,5 @@ docker run -p 3838:3838 plotr-app:latest
 ```
 
 and access the app in your browser at `http://localhost:3838/`. Stop the container with `CTRL + C` in the terminal.
+
+Add `-it` for interactive mode, or `--rm` to remove the container after stopping.
